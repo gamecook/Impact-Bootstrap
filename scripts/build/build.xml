@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<project name="Impact Bootstrap  Build" basedir="../../" default="full-build">
+
+    <!-- identify properties file -->
+    <property file="./scripts/build/build.properties" />
+
+    <target name="full-build">
+        <!-- Clean -->
+        <antcall target="pre-build-cleanup"/>
+        <antcall target="bake"/>
+        <antcall target="web-build"/>
+        <antcall target="ios-build"/>
+        <antcall target="win8-build"/>
+        <antcall target="chrome-build"/>
+        <antcall target="mozilla-build"/>
+        <antcall target="post-build-cleanup"/>
+        <!-- Bake -->
+    </target>
+
+    <!-- Delete deploy directory and create a new one -->
+    <target name="pre-build-cleanup">
+        <delete dir="${deploy.dir}"/>
+        <mkdir dir="${deploy.dir}"/>
+    </target>
+
+    <!-- Removes the minified game from the impact directory-->
+    <target name="post-build-cleanup">
+        <delete file="${impact.dir}/game.min.js"/>
+    </target>
+
+    <!-- Run the bake script - you need PHP to be runnable from the command line. -->
+    <target name="bake">
+
+        <exec dir="${impact.dir}" executable="php">
+            <arg value="${impact.dir}/tools/bake.php"/>
+            <arg value="lib/impact/impact.js"/>
+            <arg value="lib/game/main.js"/>
+            <arg value="game.min.js"/>
+        </exec>
+
+    </target>
+
+    <target name="web-build">
+        <!-- Copy over the impact directory to the deploy folder and ignore what is not needed. -->
+        <sync todir="${web.dir}">
+            <fileset dir="${impact.dir}">
+                <exclude name="weltmeister.html"/>
+                <exclude name="**/tools/*"/>
+                <exclude name="**/lib/**"/>
+            </fileset>
+        </sync>
+
+        <!-- replace js source paths in HTML with minified game js. Make sure code is surrounded by "source script" comments so the regex can find it. -->
+        <replaceregexp file="${web.dir}/index.html"
+                       match="\&lt;!--source scripts--\&gt;(.*?)\&lt;!--end source scripts--\&gt;"
+                       replace="\&lt;script src='game.min.js'\&gt;\&lt;/script\&gt;" flags="gs">
+        </replaceregexp>
+
+        <!-- This will automatically replace the title of the html page with the project name -->
+        <replaceregexp file="${web.dir}/index.html"
+                       match="&lt;title\b[^&gt;]*&gt;(.*?)&lt;/title&gt;"
+                       replace="&lt;title&gt;${project.name}&lt;/title&gt;" flags="gs">
+        </replaceregexp>
+
+        <!-- Replace version and tracking placeholders with values from the build property -->
+        <replace file="${web.dir}/game.min.js" token="@version@" value="${project.version}"/>
+        <replace file="${web.dir}/game.min.js" token="@tracking@" value="${project.tracking}"/>
+
+        <!-- This will copy over debug CSS if game is running in debug mode. -->
+        <copy file="${impact.dir}/lib/impact/debug/debug.css"
+              tofile="${web.dir}/lib/impact/debug/debug.css"/>
+    </target>
+
+    <target name="ios-build">
+        <!-- copy over files for iOS -->
+        <sync todir="${ios.dir}">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+    </target>
+
+    <target name="win8-build">
+        <!-- copy over files for Win8 -->
+        <sync todir="${win8.dir}">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+    </target>
+
+    <target name="chrome-build">
+
+        <!-- Create chrome market app -->
+        <sync todir="${chrome.dir}/tmp">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+
+        <echo file="${chrome.dir}/tmp/manifest.json" append="false">
+            {
+            "name": "${project.name}",
+            "description": "${project.description}",
+            "version": "${project.version}",
+            "icons": {
+            "16": "images/icons/icon-16x16.png",
+            "48": "images/icons/icon-48x48.png",
+            "128": "images/icons/icon-128x128.png"
+            },
+            "app": {"launch": {
+            "local_path": "index.html"
+            }},
+            "homepage_url": "${project.url}"
+            }
+        </echo>
+
+        <zip destfile="${chrome.dir}/${project.name}-${project.version}.zip" basedir="${chrome.dir}"/>
+        <delete dir="${chrome.dir}/tmp/"/>
+    </target>
+
+    <target name="mozilla-build">
+        <!-- Create Mozilla App -->
+        <sync todir="${mozilla.dir}">
+            <fileset dir="${web.dir}">
+
+            </fileset>
+        </sync>
+
+        <echo file="${mozilla.dir}/manifest.json" append="false">
+            {
+            "name":"${project.name}",
+            "developer": {
+            "name":"${company.name}",
+            "url":"${company.site}"
+            },
+            "description":"${project.description}",
+            "icons":{
+            "16": "/images/icons/icon-16x16.png",
+            "48": "/images/icons/icon-48x48.png",
+            "128": "/images/icons/icon-128x128.png"
+            }
+            }
+        </echo>
+    </target>
+
+</project>
