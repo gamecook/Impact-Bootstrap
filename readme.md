@@ -4,12 +4,12 @@ Impact Bootstrap is a simple collection of scripts, code and stock art/sounds th
 
 * **scripts** for automation and deploying games to different platforms as well as scripting tasks in Photoshop.  
 * **impact** that contains a collection of plugins, entities and sample code to extend the core impact framework and offer extra functionality in the map editor. Here is a list of important directories that make up the Bootstrap:
-    * **impact/lib/game/bootstrap** is the  main directory where all the Bootstrap code lives in your impact project.
-    * **impact/lib/game/bootstrap/entities** is where you can find all the entities for the Bootstrap.
-    * **impact/lib/game/bootstrap/platforms** is a collection of modules that will modify your game based on the type of platform it will run on. *(Web is the only finished platform and more are coming soon.)*
-    * **impact/lib/game/bootstrap/plugins** is where all the Bootstrap plugins live.
-    * **impact/lib/game/bootstrap/bootstrap.js** is a module that will load all the Bootstrap plugins. Simply add `'bootstrap.bootstrap'` to the requires block of your `main.js` module.
-    * **impact/lib/game/bootstrap/weltmeister-bootstrap.js** will load in all the Bootstrap plugins for Weltmeister (Impact's level editor). Simply add `'bootstrap.weltmeister-bootstrap'` to the requires block of the `impact/weltmeister/weltmeister.js` module.
+    * **impact/lib/bootstrap** is the  main directory where all the Bootstrap code lives in your impact project.
+    * **impact/lib/bootstrap/entities** is where you can find all the entities for the Bootstrap.
+    * **impact/lib/bootstrap/platforms** is a collection of modules that will modify your game based on the type of platform it will run on. *(Web is the only finished platform and more are coming soon.)*
+    * **impact/lib/bootstrap/plugins** is where all the Bootstrap plugins live.
+    * **impact/lib/bootstrap/bootstrap.js** is a module that will load all the Bootstrap plugins. Simply add `'bootstrap.bootstrap'` to the requires block of your `main.js` module.
+    * **impact/lib/bootstrap/weltmeister-bootstrap.js** will load in all the Bootstrap plugins for Weltmeister (Impact's level editor). Simply add `'bootstrap.weltmeister-bootstrap'` to the requires block of the `impact/weltmeister/weltmeister.js` module.
 * **resources** contains a collection of stock art and sounds to help you prototype out your ideas quickly.
 
 Here is a brief overview of the Impact Bootstrap and how to use it:
@@ -48,7 +48,7 @@ game file (`main.js` && `config.js`) so you can test out the Bootstrap.
 * **media/bootstrap** contains directories for all images, sounds and CSS required to run the Bootstrap.
 * **index.html** is a new `index.html` file to replace Impact's default one. This file includes a reference to the new CSS, which is located in the `media/bootstrap` directory, as well as placeholder artwork for touch controls.
 
-Most of the core code that makes up the Impact Bootstrap lives in the `lib/game/bootstrap' 
+Most of the core code that makes up the Impact Bootstrap lives in the `lib/bootstrap' 
 directory. Let's take a quick look at how the Bootstrap's plugins and entities work:
 
 ###Bootstrap Plugins
@@ -63,7 +63,6 @@ to your main game module's requires block.
 * **menu.js** adds the ability to overlay a 'screen' on top of the game. This is useful for pause menus or displaying stats at the end of a level or a game-over screen. There is a default menu that lets you display text. Simply extend this and override the `draw()` method with your own graphics.
 * **pause.js** adds support to pause all entities in the game on the screen by calling
 `togglePause()` on the `ig.game` class. This will not update any entities when paused, but they will continue to draw.
-* **raf.js** patches Impact to use *RequestAnimationFrame* on browsers that support it. This can increase the performance of your game.
 * **tracking.js** is a wrapper for Google Analytics to do tracking in your game. This plugin 
 automatically adds Google tracking code to your game. All you need to do is supply your tracking account number. You can also use the Ant build to automatically replace a `@tracking@` token in your game code if you don't want to hardcode it. Simply supply your account information in the `project.tracking` property of the `build.properties` file and pass the token, as a string, into the instance of the tracking class:
 
@@ -81,10 +80,20 @@ Weltmeister random map generation plugin.
 * **utils.js** will have more utilities added to it, such as an experience/level calculator and more.
 
 ###Weltmeister Plugins
-To import the entire collection of Weltmeister-specific plugins, simply add `'bootstrap.weltmeister-bootstrap'` to the `weltmeister/weltmeister.js` module's requires block.
+To import the entire collection of Weltmeister-specific plugins, simply add `'bootstrap.weltmeister-bootstrap'` to the `weltmeister/weltmeister.js` module's requires block. Here is a list of the plugins currently in the bootstrap.
 
 * **random-map.js** adds the ability to generate random map generation via a new button in the level editor. *(A full panel to configure the random map generation settings is coming soon!)*
-* **entities.js** allows you to pull up Bootstrap entities in the entity layer picker.
+
+If you would like to use the bootstrap's entities, you will need to configure your `weltmeister/config.js`. Simply replace:
+
+    'entityFiles': 'lib/game/entities/*.js',
+    
+with
+
+    'entityFiles': ['lib/game/entities/*.js',
+                    'lib/bootstrap/entities/*.js']
+        
+which tells the editor to load entities from the `lib/bootstrap/entities` directory. This is also a good technique to use if you want to keep your custom entities in another location. *(I am working on making this automated a little better for future releases of the bootstrap.)*
 
 ###Entities
 The Impact Bootstrap comes with its own set of entities, which you can use out of the box or 

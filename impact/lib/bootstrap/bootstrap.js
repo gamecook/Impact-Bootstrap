@@ -12,7 +12,7 @@ ig.module(
     'bootstrap.bootstrap'
 )
     .requires(
-    'bootstrap.plugins.impact.raf',
+/*    'bootstrap.plugins.impact.raf',*/
     'bootstrap.plugins.impact.menu',
     'bootstrap.plugins.impact.tracking',
     'bootstrap.plugins.impact.utils',

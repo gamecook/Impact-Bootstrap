@@ -16,6 +16,7 @@ ig.module(
     .defines(function ()
     {
         EntityBasePlayer = EntityMob.extend({
+            _wmIgnore: true,
             name: "player",
             maxVel:{x:100, y:150},
             friction:{x:600, y:20},

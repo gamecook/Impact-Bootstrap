@@ -19,6 +19,7 @@ ig.module(
     {
 
         EntityBaseMonster = EntityMob.extend({
+            _wmIgnore: true,
             maxVel:{x:100, y:100},
             friction:{x:150, y:0},
             speed:14,

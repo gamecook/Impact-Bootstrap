@@ -2,7 +2,6 @@ ig.module(
     'bootstrap.weltmeister-bootstrap'
 )
     .requires(
-    'bootstrap.plugins.weltmeister.entities',
     'bootstrap.plugins.weltmeister.random-map'
 
 )
