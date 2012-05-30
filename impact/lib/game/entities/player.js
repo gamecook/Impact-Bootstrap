@@ -2,20 +2,20 @@ ig.module(
     'game.entities.player'
 )
     .requires(
-    'game.bootstrap.entities.core.base-player',
+    'bootstrap.entities.core.base-player',
     'impact.sound'
 )
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({
-            animSheet:new ig.AnimationSheet('media/player.png', 16, 16),
+            animSheet:new ig.AnimationSheet('media/bootstrap/images/player.png', 16, 16),
             size:{x:8, y:14},
             offset:{x:4, y:2},
-            emptySFX:new ig.Sound('media/sounds/Empty.*'),
-            jumpSFX:new ig.Sound('media/sounds/Jump.*'),
-            deathSFX:new ig.Sound('media/sounds/Death.*'),
-            fallOutOfBoundsSFX:new ig.Sound('media/sounds/PlayerMonserFall.*'),
-            powerUpSFX:new ig.Sound('media/sounds/Powerup.*'),
-            powerUp2SFX:new ig.Sound('media/sounds/Powerup2.*'),
+            emptySFX:new ig.Sound('media/bootstrap/sounds/Empty.*'),
+            jumpSFX:new ig.Sound('media/bootstrap/sounds/Jump.*'),
+            deathSFX:new ig.Sound('media/bootstrap/sounds/Death.*'),
+            fallOutOfBoundsSFX:new ig.Sound('media/bootstrap/sounds/PlayerMonsterFall.*'),
+            powerUpSFX:new ig.Sound('media/bootstrap/sounds/PowerUp.*'),
+            powerUp2SFX:new ig.Sound('media/bootstrap/sounds/PowerUp2.*'),
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);

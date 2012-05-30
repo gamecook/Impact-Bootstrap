@@ -4,9 +4,9 @@ ig.module(
     .requires(
     'impact.game',
     'impact.font',
-    'game.bootstrap.bootstrap', // Import the bootstrap
+    'bootstrap.bootstrap', // Import the bootstrap
     'game.config', // All of the game's settings
-    'game.bootstrap.platforms.web', // You can change this out to another platform
+    'bootstrap.platforms.web', // You can change this out to another platform
     'game.levels.day1' // Make sure you import all of your levels here
 )
 
@@ -144,7 +144,7 @@ ig.module(
 
     // This is a simple template for the start screen. Replace the draw logic with your own artwork
     StartScreen = ig.Game.extend({
-        instructText:new ig.Font('media/04b03.font.png'),
+        instructText:new ig.Font('media/bootstrap/images/04b03.font.png'),
         init:function ()
         {
             // Call parent since I injected logic into the ig.Game class for key binding

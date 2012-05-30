@@ -2,12 +2,12 @@ ig.module(
     'game.entities.platform'
 )
     .requires(
-    'game.bootstrap.entities.mover',
+    'bootstrap.entities.mover',
     'impact.sound'
 )
     .defines(function () {
         EntityPlatform = EntityMover.extend({
-            animSheet:new ig.AnimationSheet('media/elevator.png', 32, 10),
+            animSheet:new ig.AnimationSheet('media/bootstrap/images/elevator.png', 32, 10),
             size:{x:32, y:10},
             type:ig.Entity.TYPE.B,
             checkAgainst:ig.Entity.TYPE.BOTH,
