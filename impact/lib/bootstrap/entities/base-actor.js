@@ -7,7 +7,7 @@
  *
  */
 ig.module(
-    'bootstrap.entities.core.base-actor'
+    'bootstrap.entities.base-actor'
 )
     .requires(
     'impact.entity',
@@ -17,7 +17,7 @@ ig.module(
     .defines(function ()
     {
 
-        EntityMob = ig.Entity.extend({
+        EntityBaseActor = ig.Entity.extend({
             _wmIgnore: true,
             visible:true,
             weapon:0,

@@ -8,14 +8,14 @@
  */
 
 ig.module(
-    'bootstrap.entities.core.base-player'
+    'bootstrap.entities.base-player'
 )
     .requires(
-    'bootstrap.entities.core.base-actor'
+    'bootstrap.entities.base-actor'
 )
     .defines(function ()
     {
-        EntityBasePlayer = EntityMob.extend({
+        EntityBasePlayer = EntityBaseActor.extend({
             _wmIgnore: true,
             name: "player",
             maxVel:{x:100, y:150},

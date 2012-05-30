@@ -7,7 +7,7 @@ ig.module(
     'bootstrap.bootstrap', // Import the bootstrap
     'game.config', // All of the game's settings
     'bootstrap.platforms.web', // You can change this out to another platform
-    'game.levels.day1' // Make sure you import all of your levels here
+    'game.levels.demo' // Make sure you import all of your levels here
 )
 
 .defines(function () {
@@ -52,6 +52,7 @@ ig.module(
         stats:null,
         isGameOver:false,
         defaultCaption:'',
+        lightMask: new ig.Image('media/bootstrap/images/lighting.png'),
         /**
          * Main function
          */
@@ -70,6 +71,8 @@ ig.module(
 
             // Set game volume
             ig.Sound.volume = ig.config.system.soundVolume;
+
+            this.camera.lightMask = this.lightMask;
         },
 
         loadLevel:function (data)

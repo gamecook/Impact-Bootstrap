@@ -24,13 +24,13 @@ ig.module(
 )
     .requires(
     'impact.entity',
-    'bootstrap.entities.mover'
+    'bootstrap.entities.platform'
 
 )
     .defines(function ()
     {
 
-        EntityElevator = EntityMover.extend({
+        EntityElevator = EntityPlatform.extend({
             size:{x:32, y:48},
             type:ig.Entity.TYPE.NONE,
             collides:ig.Entity.COLLIDES.NONE,

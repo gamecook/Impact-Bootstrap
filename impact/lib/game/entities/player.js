@@ -2,11 +2,12 @@ ig.module(
     'game.entities.player'
 )
     .requires(
-    'bootstrap.entities.core.base-player',
+    'bootstrap.entities.base-player',
     'impact.sound'
 )
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({
+            _wmIgnore: false,
             animSheet:new ig.AnimationSheet('media/bootstrap/images/player.png', 16, 16),
             size:{x:8, y:14},
             offset:{x:4, y:2},

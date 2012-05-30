@@ -8,17 +8,17 @@
  */
 
 ig.module(
-    'bootstrap.entities.core.base-monster'
+    'bootstrap.entities.base-monster'
 )
     .requires(
-    'bootstrap.entities.core.base-actor',
+    'bootstrap.entities.base-actor',
     'impact.sound'
 
 )
     .defines(function ()
     {
 
-        EntityBaseMonster = EntityMob.extend({
+        EntityBaseMonster = EntityBaseActor.extend({
             _wmIgnore: true,
             maxVel:{x:100, y:100},
             friction:{x:150, y:0},

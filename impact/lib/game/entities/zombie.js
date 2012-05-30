@@ -2,11 +2,12 @@ ig.module(
     'game.entities.zombie'
 )
     .requires(
-    'bootstrap.entities.core.base-monster',
+    'bootstrap.entities.base-monster',
     'impact.sound'
 )
     .defines(function () {
         EntityZombie = EntityBaseMonster.extend({
+            _wmIgnore: false,
             animSheet:new ig.AnimationSheet('media/bootstrap/images/zombie.png', 16, 16),
             size:{x:8, y:14},
             offset:{x:4, y:2},

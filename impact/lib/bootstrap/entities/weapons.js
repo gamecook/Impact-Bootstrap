@@ -13,7 +13,7 @@ ig.module(
     .requires(
     'impact.entity',
     'impact.sound',
-    'bootstrap.entities.core.base-actor'
+    'bootstrap.entities.base-actor'
 )
     .defines(function ()
     {

@@ -20,7 +20,7 @@
  */
 
 ig.module(
-    'bootstrap.entities.mover'
+    'bootstrap.entities.platform'
 )
     .requires(
     'impact.entity',
@@ -29,11 +29,11 @@ ig.module(
 )
     .defines(function ()
     {
-        EntityMover = ig.Entity.extend({
-            size:{x:24, y:8},
-            maxVel:{x:100, y:100},
+        EntityPlatform = ig.Entity.extend({
+            animSheet:new ig.AnimationSheet('media/bootstrap/images/elevator.png', 32, 10),
+            size:{x:32, y:10},
             type:ig.Entity.TYPE.B,
-            checkAgainst:ig.Entity.TYPE.NONE,
+            checkAgainst:ig.Entity.TYPE.BOTH,
             collides:ig.Entity.COLLIDES.FIXED,
             target:null,
             targets:[],

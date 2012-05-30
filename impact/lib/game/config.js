@@ -21,7 +21,7 @@ ig.module(
                     default:{width:240, height:160, scale:4}
                 },
                 gravity:300,
-                defaultLevel:"day1.js",
+                defaultLevel:"demo.js",
                 input: {
 
                     'keys':{

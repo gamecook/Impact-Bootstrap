@@ -42,7 +42,7 @@ ig.module(
                     }).replace(".js", "");
 
                 var levelData = ig.global['Level' + this.currentLevelName];
-
+                console.log("levelData", levelData);
                 this[deferred ? "loadLevelDeferred" : "loadLevel"](levelData);
             }
         })
