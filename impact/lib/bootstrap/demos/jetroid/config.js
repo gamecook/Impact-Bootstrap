@@ -1,5 +1,5 @@
 ig.module(
-    'game.config'
+    'bootstrap.demos.jetroid.config'
 )
     .defines(function ()
     {
