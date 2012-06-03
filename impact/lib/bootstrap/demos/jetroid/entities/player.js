@@ -27,7 +27,7 @@ ig.module(
             powerDownRate: 2,
             powerRechargeRate: 1,
 
-            airMax: 10,
+            airMax: 100,
             air: 0,
             airTimer:null,
             airDelay:1,

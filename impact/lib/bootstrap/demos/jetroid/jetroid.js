@@ -14,10 +14,13 @@ ig.module(
         /* Empty module to require all bootstrap plugins */
 
         MyGame.inject({
+            lightMask: new ig.Image('media/bootstrap/images/lighting.png'), //TODO need to move this into the specific game
 
-            loadLevel: function(data)
+            init: function()
             {
-                this.parent(data);
+                this.parent();
+
+                this.camera.lightMask = this.lightMask;
             }
 
         })

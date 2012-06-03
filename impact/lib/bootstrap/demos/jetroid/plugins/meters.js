@@ -17,7 +17,7 @@ ig.module(
             icons: new ig.Image("lib/bootstrap/demos/jetroid/media/powerups.png"),
             meterWidth: 60,
             meterHeight: 9,
-            meterPadding: 10,
+            meterPadding: 5,
             meterIconSize: {x: 10, y: 9},
             meterNames: ["health", "power", "air"],
             draw: function()
@@ -36,12 +36,12 @@ ig.module(
 
                         //TODO look into ways of making this cleaner
                         if(percent > 1) percent = 1;
-                        x = ((this.meterWidth + this.meterPadding) * i) + offset.x;
+                        x = ((this.meterWidth + this.meterIconSize.x + this.meterPadding) * i)+ offset.x;
                         y = offset.y;
 
-                        this.icons.draw(x,y,0,this.meterIconSize.x * i, this.meterIconSize.x, this.meterIconSize.y);
+                        this.icons.draw(x,y,this.meterIconSize.x * i,0, this.meterIconSize.x, this.meterIconSize.y);
 
-                        x += this.meterIconSize.x + 2;
+                        x += this.meterIconSize.x;
                         //y += this.meterIconSize.y;
 
                         //TODO also need to draw icons next to each bar

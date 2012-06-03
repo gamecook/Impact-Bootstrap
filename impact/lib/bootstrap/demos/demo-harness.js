@@ -49,7 +49,7 @@ ig.module(
         stats:null,
         isGameOver:false,
         defaultCaption:'',
-        lightMask: new ig.Image('media/bootstrap/images/lighting.png'), //TODO need to move this into the specific game
+
         /**
          * Main function
          */
@@ -69,7 +69,7 @@ ig.module(
             // Set game volume
             ig.Sound.volume = ig.config.system.soundVolume;
 
-            this.camera.lightMask = this.lightMask;
+
         },
 
         loadLevel:function (data)
