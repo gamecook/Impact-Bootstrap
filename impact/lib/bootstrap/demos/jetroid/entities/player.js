@@ -8,7 +8,6 @@ ig.module(
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({
             _wmIgnore: false,
-            //animSheet:new ig.AnimationSheet('media/bootstrap/images/player.png', 16, 16),
             animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/player.png', 16, 16),
             size:{x:8, y:14},
             offset:{x:4, y:2},
@@ -18,20 +17,48 @@ ig.module(
             fallOutOfBoundsSFX:new ig.Sound('media/bootstrap/sounds/PlayerMonsterFall.*'),
             powerUpSFX:new ig.Sound('media/bootstrap/sounds/PowerUp.*'),
             powerUp2SFX:new ig.Sound('media/bootstrap/sounds/PowerUp2.*'),
+            idleAnimationTimer: new ig.Timer(),
+            idleAnimationDelay: 4,
+
+            powerMax: 100,
+            power: 0,
+            powerTimer:null,
+            powerDelay:.07,
+            powerDownRate: 2,
+            powerRechargeRate: 1,
+
+            airMax: 10,
+            air: 0,
+            airTimer:null,
+            airDelay:1,
+            airDownRate: 1,
+
+            powerTimer: new ig.Timer(),
+            airTimer: new ig.Timer(),
+
+            healthMax: 10,
+            health: 10,
+
+            fallDistance: 0,
+            maxFallDistance: 10000,
+
+            bounciness: 0.2,
+
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
+                this.setupAnimation();
 
-                this.setupAnimation(0);//this.weapon);
+                this.power = this.powerMax;
+                this.air = this.airMax;
             },
             setupAnimation:function (offset) {
-                //TODO this is doing nothing
-                offset = offset * 14;
                 this.addAnim('idle', 1, [0]);
-                this.addAnim('run', .07, [0, 1, 2, 3, 4, 5]);
-                this.addAnim('jump', .07, [9, 10, 11, 12]);
-                this.addAnim('jumpEmpty', 1, [13]);
-                this.addAnim('fall', 0.4, [6, 7]);
+                this.addAnim('waiting',.05, [0,1,2,3,4,5,6,7,8,9,0], true);
+                this.addAnim('run', .07, [10, 11, 12, 13, 14, 15, 16]);
+                this.addAnim('jump', .07, [18, 19, 20]);
+                this.addAnim('jumpEmpty', 1, [21]);
+                this.addAnim('fall', 1, [21]);
             },
             onDeathAnimation:function () {
                 this.parent();
@@ -56,14 +83,74 @@ ig.module(
                     this.currentAnim = this.anims.run;
                     this.fallDistance = 0;
                 } else {
-                    this.currentAnim = this.anims.idle;
+
                     this.fallDistance = 0;
+
+                    if(this.currentAnim != this.anims.waiting)
+                    {
+                        this.currentAnim = this.anims.idle;
+                    }
+
+                    if(this.idleAnimationTimer.delta() > this.idleAnimationDelay)
+                    {
+                        this.currentAnim = this.anims.waiting;
+                        this.currentAnim.rewind();
+                        this.idleAnimationTimer.reset();
+                    }
                 }
+            },
+            update: function()
+            {
+
+                this.parent();
+
+                if( this.powerTimer.delta() > this.powerDelay ) {
+                    //TODO maybe this can be cleaned up?
+                    if(ig.input.state("jump"))
+                    {
+                        if(this.power > 0)
+                            this.power -= this.powerDownRate;
+                    }
+                    else
+                    {
+                        if(this.power <= this.powerMax)
+                            this.power += this.powerRechargeRate;
+                    }
+
+                    this.powerTimer.reset();
+                }
+
+                if( this.airTimer.delta() > this.airDelay ) {
+                    if(this.air > 0)
+                        this.air -= this.powerDownRate;
+                    else
+                        this.receiveDamage(1);
+
+                    this.airTimer.reset();
+                }
+
+
+                   // console.log("IDLE", this.idleAnimationTimer.delta());
+            },
+            draw: function()
+            {
+                this.parent();
             },
             jumpDown:function ()
             {
-                this.vel.y -= 9;
-                this.fallDistance -= this.vel.y;
+                if(this.power > 0)
+                {
+                    this.vel.y -= 9;
+                    this.fallDistance -= this.vel.y;
+                }
+                else
+                {
+                    ig.game.displayCaption("Out Of Energy", 1);
+                    //TODO need to show animation out of energy?
+                }
+
+
+
             },
             rightDown:function ()
             {

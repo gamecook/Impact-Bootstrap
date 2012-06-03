@@ -62,14 +62,10 @@ ig.module(
             {
                 this.captionText = value;
                 this.captionDelay = delay;
-
-                console.log("showing", this.captionDelay);
-
                 this.captionTimer.reset();
             },
             hide:function ()
             {
-                console.log("hide instructions")
                 this.captionDelay = -1;
             }
 
