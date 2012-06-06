@@ -125,6 +125,7 @@ Core entities are 'abstract classes' designed to allow you to extend them in you
             {
                 // Perform any cleanup needed when the right button is released
             } 
+* **base-item** is a template for items that an actor can pick up or equip in the game. It supports the notion of flagging the item as equipable which will hide the item entity on the game map but add it to an actor's inventory. From there you can handle each call to equip to do specific actions for each type of item. *(This item and it's full set of functionality is still being fleshed out.)
     
 ####Ready-To-Use Entities
 The entities in the root of the Bootstrap entity directory can be used as is. These entities do have some dependencies on artwork in the media folder, but you can simply inject new properties into them if you need to resize or replace artwork. Here is a list of the ready-to-use entities:
@@ -177,6 +178,28 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * PowerUp2.wav
 * ShotgunFire.wav
 * StartGame.wav
+
+##Change Log
+
+**v0.2.0-alpha**
+
+* Refactored Bootstrap to sit inside of `impact/lib` instead of `impact/lib/game`
+* Updated to support lasts vernon of Impact (v1.2.0).
+* Removed plugins that are no longer needed (raf.js, entities.js). 
+* Added demo folder with new game Jetroid to help show off how the bootstrap works.
+* Cleaned up `main.js` to now load Jetroid by default similar to how a plugin works, which will allow users to eventually easily swap out each demo game.
+* Added `.capitalize()` method to string in the `util.js` plugin.
+* Added Jetroid artwork to the resources directory for use with the demo game. *(PNGs require Fireworks to see animation frames properly)*
+* Added base-item entity to the bootstrap which sets the foundation of equipment and power ups. Examples of how to use this class are part of the Jetroid demo.
+* Moved "core entities" into main bootstrap entity folder now that Impact v1.2.0 add support for ignoring entities in weltmeister.
+
+##Demos
+Impact Bootstrap comes with some demo games in order to show off how you can build your own games off of the bootstrap. I'll be filling in more details here as I build out each of the demo games.
+
+###Jetroid
+More info coming soon on this game, how it works and how to run in. Right now it's set up by default in the bootstrap. Check out its source code in `lib/bootstrap/demos/jetroid`.
+
+
 
 #Coming Soon
 The Impact Bootstrap is still a work in progress. Here are some features I plan on adding:
