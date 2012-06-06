@@ -20,12 +20,12 @@ ig.module(
             idleAnimationTimer: new ig.Timer(),
             idleAnimationDelay: 4,
 
-            powerMax: 100,
-            power: 0,
-            powerTimer:null,
-            powerDelay:.07,
-            powerDownRate: 2,
-            powerRechargeRate: 1,
+            energyMax: 100,
+            energy: 0,
+            energyTimer:null,
+            energyDelay:.07,
+            energyDownRate: 2,
+            energyRechargeRate: 1,
 
             airMax: 100,
             air: 0,
@@ -33,7 +33,7 @@ ig.module(
             airDelay:1,
             airDownRate: 1,
 
-            powerTimer: new ig.Timer(),
+            energyTimer: new ig.Timer(),
             airTimer: new ig.Timer(),
 
             healthMax: 10,
@@ -49,7 +49,7 @@ ig.module(
                 this.parent(x, y, settings);
                 this.setupAnimation();
 
-                this.power = this.powerMax;
+                this.energy = this.energyMax;
                 this.air = this.airMax;
             },
             setupAnimation:function (offset) {
@@ -104,25 +104,25 @@ ig.module(
 
                 this.parent();
 
-                if( this.powerTimer.delta() > this.powerDelay ) {
+                if( this.energyTimer.delta() > this.energyDelay ) {
                     //TODO maybe this can be cleaned up?
                     if(ig.input.state("jump"))
                     {
-                        if(this.power > 0)
-                            this.power -= this.powerDownRate;
+                        if(this.energy > 0)
+                            this.energy -= this.energyDownRate;
                     }
                     else
                     {
-                        if(this.power <= this.powerMax)
-                            this.power += this.powerRechargeRate;
+                        if(this.energy <= this.energyMax)
+                            this.energy += this.energyRechargeRate;
                     }
 
-                    this.powerTimer.reset();
+                    this.energyTimer.reset();
                 }
 
                 if( this.airTimer.delta() > this.airDelay ) {
                     if(this.air > 0)
-                        this.air -= this.powerDownRate;
+                        this.air -= this.energyDownRate;
                     else
                         this.receiveDamage(1);
 
@@ -138,7 +138,7 @@ ig.module(
             },
             jumpDown:function ()
             {
-                if(this.power > 0)
+                if(this.energy > 0)
                 {
                     this.vel.y -= 9;
                     this.fallDistance -= this.vel.y;
@@ -148,9 +148,6 @@ ig.module(
                     ig.game.displayCaption("Out Of Energy", 1);
                     //TODO need to show animation out of energy?
                 }
-
-
-
             },
             rightDown:function ()
             {
@@ -176,6 +173,22 @@ ig.module(
             shootPressed:function ()
             {
                 ig.game.shakeScreen();
+            },
+            addPowerUp: function(property, value, message)
+            {
+                if(this[property])
+                {
+                    this[property] += value;
+                    if(this[property] > this[property+"Max"])
+                        this[property] = this[property +"Max"];
+                    else if(this[property] < 0)
+                    {
+                        this[property] = 0;
+                    }
+
+                    if(message)
+                        ig.game.displayCaption(message, 2);
+                }
             }
         });
 

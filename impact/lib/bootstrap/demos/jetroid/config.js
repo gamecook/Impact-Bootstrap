@@ -18,7 +18,7 @@ ig.module(
                     iphone:{width:240, height:160, scale:2},
                     android:{width:240, height:160, scale:2},
                     ipad:{width:240, height:160, scale:4},
-                    default:{width:240, height:160, scale:4}
+                    default:{width:240, height:160, scale:3}
                 },
                 gravity:300,
                 defaultLevel:"demo.js",

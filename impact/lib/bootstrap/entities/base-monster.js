@@ -11,9 +11,7 @@ ig.module(
     'bootstrap.entities.base-monster'
 )
     .requires(
-    'bootstrap.entities.base-actor',
-    'impact.sound'
-
+    'bootstrap.entities.base-actor'
 )
     .defines(function ()
     {

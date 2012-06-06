@@ -19,7 +19,7 @@ ig.module(
             meterHeight: 9,
             meterPadding: 5,
             meterIconSize: {x: 10, y: 9},
-            meterNames: ["health", "power", "air"],
+            meterNames: ["health", "energy", "air"],
             draw: function()
             {
                 this.parent();

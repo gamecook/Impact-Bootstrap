@@ -129,9 +129,9 @@ ig.module(
                 this.invincible = true;
                 this.captionTimer.reset();
             },
-            equip:function (id, message)
+            equip:function (target)
             {
-
+                //TODO need to handle equipped items. Maybe this should just get pushed into an array.
             },
             update:function ()
             {
@@ -205,7 +205,7 @@ ig.module(
                 this.fireDelay.reset();
 
                 //TODO need to let each weapon have its own power drain
-                this.power--;
+                this.energy--;
                 /*if(ig.game.stats.ammo < 1)
                  {
                  this.equip(0);
