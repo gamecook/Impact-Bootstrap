@@ -47,12 +47,18 @@ ig.module(
             },
             check:function (other)
             {
+                if(this.equipped)
+                    return;
+
                 this.onPickup(other)
             },
             onPickup: function(target)
             {
                 if(this.equipable && target.equip)
-                    other.equip(this);
+                {
+                    target.equip(this);
+                    this.equipped = true;
+                }
                 else
                 {
                     this.kill();

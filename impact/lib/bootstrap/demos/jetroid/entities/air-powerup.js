@@ -2,10 +2,10 @@ ig.module(
     'bootstrap.demos.jetroid.entities.air-powerup'
 )
     .requires(
-    'bootstrap.demos.jetroid.entities.powerup'
+    'bootstrap.demos.jetroid.entities.base-powerup'
 )
     .defines(function () {
-        EntityAirPowerup = EntityPowerup.extend({
+        EntityAirPowerup = EntityBasePowerup.extend({
             _wmIgnore: false,
             powerUpProperty: "air",
             value: 50,

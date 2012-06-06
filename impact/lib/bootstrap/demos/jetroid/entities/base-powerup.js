@@ -1,12 +1,12 @@
 ig.module(
-    'bootstrap.demos.jetroid.entities.powerup'
+    'bootstrap.demos.jetroid.entities.base-powerup'
 )
     .requires(
     'bootstrap.entities.base-item',
     'impact.sound'
 )
     .defines(function () {
-        EntityPowerup = EntityBaseItem.extend({
+        EntityBasePowerup = EntityBaseItem.extend({
             _wmIgnore: true,
             animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/powerups.png', 10, 9),
             powerUpProperty: "",

@@ -2,10 +2,10 @@ ig.module(
     'bootstrap.demos.jetroid.entities.energy-powerup'
 )
     .requires(
-    'bootstrap.demos.jetroid.entities.powerup'
+    'bootstrap.demos.jetroid.entities.base-powerup'
 )
     .defines(function () {
-        EntityEnergyPowerup = EntityPowerup.extend({
+        EntityEnergyPowerup = EntityBasePowerup.extend({
             _wmIgnore: false,
             powerUpProperty: "energy",
             value: 50,

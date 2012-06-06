@@ -189,6 +189,11 @@ ig.module(
                     if(message)
                         ig.game.displayCaption(message, 2);
                 }
+            },
+            equip:function(target)
+            {
+                this.parent(target);
+                ig.game.displayCaption("You Have Picked Up A "+target.name.capitalize()+".", 2);
             }
         });
 
