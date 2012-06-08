@@ -81,7 +81,14 @@ ig.module(
             onPause:function ()
             {
                 if(this.showMenu)
-                    this.showMenu(new Menu("Pause"));
+                    this.onShowPauseMenu()
+            },
+            /**
+             * Override this if you want to display a custom pause menu
+             */
+            onShowPauseMenu: function()
+            {
+                this.showMenu(new Menu("Pause"));
             }
         });
 

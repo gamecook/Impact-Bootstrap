@@ -122,7 +122,13 @@ ig.module(
         onPause:function ()
         {
             this.parent();
+            this.levelTimer.pause();
             this.hideCaption();
+        },
+        onResume:function()
+        {
+            this.parent();
+            this.levelTimer.unpause();
         },
         onPlayerDeath:function ()
         {
@@ -172,6 +178,10 @@ ig.module(
         {
             this.parent();
 
+            this.drawScreen();
+        },
+        drawScreen: function()
+        {
             //TODO this should be coming from the config
             var text = !ig.ua.mobile ? 'Press Spacebar To Start!' : 'Press Anywhere To Start!'
 

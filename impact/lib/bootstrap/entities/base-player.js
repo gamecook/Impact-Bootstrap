@@ -81,10 +81,6 @@ ig.module(
                 if (actionMethodName in this)
                     this[actionMethodName]();
             },
-            equip:function (id, hideMessage)
-            {
-
-            },
             onKill:function ()
             {
                 ig.game.onPlayerDeath();

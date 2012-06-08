@@ -24,7 +24,7 @@ ig.module(
             {
                 this.parent();
 
-                if(this.player && !this.isGameOver)
+                if(this.player && !this.isGameOver && !this.paused)
                 {
                     var offset = {x: 10, y: 5};
                     var x = 0;

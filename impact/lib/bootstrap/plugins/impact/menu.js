@@ -69,11 +69,17 @@ ig.module(
             },
             draw:function ()
             {
-                ig.system.context.fillStyle = 'rgba(0,0,0,0.8)';
-                ig.system.context.fillRect(0, 0, ig.system.width * ig.system.scale, ig.system.height * ig.system.scale);
+                this.drawModal();
                 var x = ig.system.width * .5;
                 var y = ig.system.height * .5;
                 this.menuFont.draw(this.title, x, y, ig.Font.ALIGN.CENTER);
+            },
+            drawModal: function(color)
+            {
+                //TODO need to make this cleaner
+                if(!color) color = 'rgba(0,0,0,0.8)';
+                ig.system.context.fillStyle = color;
+                ig.system.context.fillRect(0, 0, ig.system.width * ig.system.scale, ig.system.height * ig.system.scale);
             }
         })
 

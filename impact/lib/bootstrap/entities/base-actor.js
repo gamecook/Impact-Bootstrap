@@ -35,6 +35,7 @@ ig.module(
             fireDelay:null,
             fireRate:0,
             bloodColorOffset:0,
+            equipment: [],
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
@@ -131,7 +132,7 @@ ig.module(
             },
             equip:function (target)
             {
-                //TODO need to handle equipped items. Maybe this should just get pushed into an array.
+                this.equipment.push(target);
             },
             update:function ()
             {

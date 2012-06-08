@@ -184,7 +184,7 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 **v0.2.0-alpha**
 
 * Refactored Bootstrap to sit inside of `impact/lib` instead of `impact/lib/game`
-* Updated to support lasts vernon of Impact (v1.2.0).
+* Updated to support lasts versions of Impact (v1.2.0).
 * Removed plugins that are no longer needed (raf.js, entities.js). 
 * Added demo folder with new game Jetroid to help show off how the bootstrap works.
 * Cleaned up `main.js` to now load Jetroid by default similar to how a plugin works, which will allow users to eventually easily swap out each demo game.
