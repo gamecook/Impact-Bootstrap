@@ -10,15 +10,17 @@ html,body {
 {
     /*width: auto;*/
     margin: auto auto;
+    height: 100%;
     /*border: 1px solid red;*/
     text-align: center;
 }
 
 #controls
 {
-    /*width: 720px;*/
     height: 96px;
     margin-top: -100px;
+    position: relative;
+    overflow: hidden;
 }
 #canvas {
     /*width: 720px;
@@ -40,14 +42,13 @@ html,body {
     width: 80px;
     height: 96px;
     position: relative;
-    bottom: 0px;
     opacity: .2;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     -webkit-text-size-adjust: none;
 }
-#buttonLeft { left: 0;background-position: 0, 0; }
-#buttonRight { left: 80px; top:-96px; background-position: -80px, 0; }
-#buttonShoot { right: -560px; top:-192px; background-position: -160px, 0; }
-#buttonJump { right: -640px; top:-288px; background-position: -240px, 0; }
+#buttonLeft { float:left; background-position: 0, 0; }
+#buttonRight { float:left; background-position: -80px, 0; }
+#buttonShoot { float:right; background-position: -160px, 0; }
+#buttonJump { float:right; background-position: -240px, 0; }

@@ -16,7 +16,7 @@ ig.module(
 
         MyGame.inject({
             lightMask: new ig.Image('lib/bootstrap/demos/jetroid/media/lighting.png'), //TODO need to move this into the specific game
-
+            exitedLevel: false,
             init: function()
             {
                 this.parent();
@@ -25,6 +25,29 @@ ig.module(
                 this.camera.trap.size.x = ig.system.width / 3;
                 this.camera.trap.size.y = ig.system.height / 3;
                 this.camera.lightMask = this.lightMask;
+            },
+            exitLevel: function (data) {
+                //Kills player and sets exitedLevel value to true
+                this.exitedLevel = true;
+                this.player.kill(true);
+            },
+            onPlayerDeath: function () {
+                if (this.exitedLevel) {
+                    this.isGameOver = true;
+                    this.togglePause(true);
+                    // Show the game over menu
+                    this.showMenu(new StatMenu("You Left The Level!"));
+                    
+                } else {
+                    this.parent();
+                }
+            },
+            reloadLevel: function () {
+                if (this.exitedLevel) {
+                    ig.system.setGame(StartScreen);
+                } else {
+                    this.parent();
+                }
             }
 
         })

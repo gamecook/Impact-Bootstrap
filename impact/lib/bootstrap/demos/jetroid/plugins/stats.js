@@ -36,7 +36,7 @@ ig.module(
                 //TODO this should be moved into the utils
                 var x = ig.system.width * .5;
                 var y = ig.system.height * .5;
-                this.menuFont.draw("Paused", x, y - 30, ig.Font.ALIGN.CENTER);
+                this.menuFont.draw(this.title, x, y - 30, ig.Font.ALIGN.CENTER);
                 this.menuFont.draw("Time: "+Math.round(ig.game.levelTimer.delta()), x, y, ig.Font.ALIGN.CENTER);
 
                 //TODO calculate score

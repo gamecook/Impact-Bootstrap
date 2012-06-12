@@ -5,62 +5,39 @@
  *  @date: May 2012
  *  @copyright (c) 2012 Jesse Freeman, under The MIT License (see LICENSE)
  *
+ *  This entity is useful for exiting a level
  */
 
-//TODO need to change class and file name to level-exit and LevelExit
 ig.module(
     'bootstrap.entities.levelexit'
 )
     .requires(
     'impact.entity',
-    'bootstrap.entities.door'
+    'impact.game'
 )
-    .defines(function ()
-    {
+    .defines(function () {
 
-        EntityLevelexit = EntityDoor.extend({
-            storage:null,
-            levelName:"",
-            hiScore:0,
-            init:function (x, y, settings)
-            {
-
-                //TODO Need to add option to have player activate when entering or by triggering it like a door
-
-                this.parent(x, y, settings);
-
-                // Setup Local Storage
-                this.storage = this.storage = new ig.Storage();
-
-                if (this.level)
-                {
-                    this.levelName = this.level.replace(/^(Level)?(\w)(\w*)/, function (m, l, a, b)
-                    {
-                        return a.toUpperCase() + b;
-                    });
-
-                    var levelScoreID = this.levelName + "Score"
-                    this.hiScore = this.storage.getInt(levelScoreID) ? this.storage.getInt(levelScoreID) : 0;
-                }
-
-
-            },
-            onOpen:function ()
-            {
-                if (this.levelName)
-                {
-                    ig.game.currentLevelName = this.levelName;
-                    ig.game.loadLevelDeferred(ig.global['Level' + this.levelName]);
+        EntityLevelexit = ig.Entity.extend({
+            size: { x: 16, y: 16 },
+            _wmScalable: true,
+            _wmDrawBox: true,
+            _wmBoxColor: 'rgba(196, 0, 255, 0.7)',
+            type: ig.Entity.TYPE.NONE,
+            checkAgainst: ig.Entity.TYPE.A,
+            collides: ig.Entity.COLLIDES.NEVER,
+            check: function (other) {
+                if (other instanceof EntityPlayer) {
+                    ig.game.exitLevel();
                 }
             },
-            entityCanOpenDoor:function (other)
-            {
-                this.parent(other);
-
-                //console.log("score", this.storage.getInt(levelScoreID), levelScoreID);
-
-                ig.game.displayCaption(this.level.capitaliseFirstLetter() + " Hi-Score " + this.hiScore.toString().padString(6), .2);
-
+            update: function () {
             }
         });
+
+        ig.Game.inject({
+            exitLevel: function (data) {
+                console.log("exit level");
+            }
+        })
+
     });
