@@ -18,6 +18,8 @@ ig.module(
     .defines(function ()
     {
 
+        ig.utils = {};
+
         String.prototype.padString = function (length)
         {
             var str = this;
@@ -31,6 +33,11 @@ ig.module(
         String.prototype.capitalize = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
         }
+
+        ig.utils.randomRange = function(from, to){
+            return Math.floor(Math.random() * (to - from + 1) + from);
+        }
+
 
         ig.Game.inject({
             currentLevelName: null,

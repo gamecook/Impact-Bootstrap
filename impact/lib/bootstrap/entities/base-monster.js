@@ -43,7 +43,9 @@ ig.module(
                 }
                 var xdir = this.flip ? -1 : 1;
                 this.vel.x = this.speed * xdir;
-                this.currentAnim.flip.x = this.flip;
+                if(this.currentAnim)
+                    this.currentAnim.flip.x = this.flip;
+
                 this.parent();
             },
             handleMovementTrace:function (res)

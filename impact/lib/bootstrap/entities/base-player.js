@@ -63,8 +63,6 @@ ig.module(
                         }
                     }
 
-                    this.updateAnimation();
-
                     this.currentAnim.flip.x = this.flip;
                 }
 

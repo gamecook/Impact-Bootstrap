@@ -132,7 +132,7 @@ The entities in the root of the Bootstrap entity directory can be used as is. Th
 
 * **door.js** is simple door that allows the player to hide inside without taking damage. The door can be extended to offer rewards to the player for going inside or when leaving.
 * **elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
-* **levelexit.js** allows the player to exit a level and load a new one. You supply a new level name in Weltmeister when placing the entity on the map.
+* **levelexit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
 * **outofbounds.js** is an invisible area that calls an `outofbounds()` handler on any entity that collides with it. This method is automatically added to any entity that extends the base-actor class. It is useful for holes in floors or areas that should instantly kill an entity.
 * **spawner.js** - will spawn other entities based on a set time and has a built-in object pool. When an entity is created via the spawner, they will get a reference to the spawner instance in the settings object passed into the `init()` constructor. This allows spawned entities to call back to the spawner when destroyed in order to return to the pool.
 * **text.js** is a simple entity that can display text on maps. This is useful for anywhere you would need text on a map without having to generate tiles for it. Also, these entities can be set to *fixed* collision so other entities can stand on them. *(This entity still needs to be optimized and incurs in a `draw()` call for every letter being rendered. Future versions of this entity will cache its bitmap data to speed up rendering.)*
@@ -180,6 +180,17 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * StartGame.wav
 
 ##Change Log
+
+**v0.3.0-alpha**
+
+* Updated `levelexit.js` to now inject and call a new `exitLevel()` method on the `ig.game` class.
+* Added more features to the Jetroid demo such as a stats screen to show during pause or when exiting a level, a new demo level, and added a way to exit a level to show off the new `exitlevel.js` class and monsters.
+* Added new `win8.js` plugin inside of the platform folder which adds support for deploying your game to Windows 8 as an HTML5 Metro app.
+* Fixed css for the buttons on the `index.html` to float instead of being hardcoded to a specific size.
+* Adding more artwork for Jetroid to the resources directory.
+* Added prototype to Math class to support randomRange(min, max)
+* Starting to move new utility classes into `ig.utils` namespace instead of prototyping main classes in JS. First one is `ig.utils.randomRange(min, max)` which allows you to get a random number between a set range. *(I will be converting other string utils to this format as well moving forward)*
+* Cleaned up animation issue in base actor, player and monster that would throw an error if no animation was set in the constructor. 
 
 **v0.2.0-alpha**
 

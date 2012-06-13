@@ -3,7 +3,8 @@ ig.module(
 )
     .requires(
     'bootstrap.demos.jetroid.jetroid', // Change this to any demo you want to run
-    'bootstrap.platforms.web' // You can change this out to another platform
+    'bootstrap.platforms.web', // You can change this out to another platform
+    'impact.debug.debug'
 )
 
 .defines(function () {

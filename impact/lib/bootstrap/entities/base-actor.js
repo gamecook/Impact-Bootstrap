@@ -140,9 +140,18 @@ ig.module(
                 if (this.captionTimer.delta() > this.invincibleDelay)
                 {
                     this.invincible = false;
-                    this.currentAnim.alpha = 1;
+                    if(this.currentAnim)
+                        this.currentAnim.alpha = 1;
                 }
+
+                if (this.visible)
+                    this.updateAnimation();
+
                 this.parent();
+            },
+            updateAnimation:function ()
+            {
+                //Replace with logic to set the correct animation
             },
             draw:function ()
             {
@@ -157,10 +166,13 @@ ig.module(
 
                 //TODO alpha is not showing up correctly on the player now when a level starts
                 //Hack to allow you to override invincible effect
-                if (!this.visible)
-                    this.currentAnim.alpha = false;
-                else
-                    this.currentAnim.alpha = true;
+                if(this.currentAnim)
+                {
+                    if (!this.visible)
+                        this.currentAnim.alpha = false;
+                    else
+                        this.currentAnim.alpha = true;
+                }
 
                 this.parent();
             },
