@@ -40,24 +40,24 @@ ig.module(
                 var x = ig.system.width * .5;
                 var y = ig.system.height * .5;
                 this.menuFont.draw(this.title, x, y - 30, ig.Font.ALIGN.CENTER);
-                this.menuFont.draw("Time: "+Math.round(ig.game.levelTimer.delta()), x, y, ig.Font.ALIGN.CENTER);
-                //this.menuFont.draw("Collected Items: "+total, x, y+(10 * i), ig.Font.ALIGN.CENTER);
+                this.menuFont.draw("Time: "+Math.round(ig.game.levelTimer.delta()), x, y - 10, ig.Font.ALIGN.CENTER);
+                this.menuFont.draw("~ Collected Items ~", x, y+10, ig.Font.ALIGN.CENTER);
                 //TODO calculate score
+
+                var i;
+                var total;
 
                 if(this.invalidate)
                 {
                     if(ig.game.player)
                     {
                         var inventory = ig.game.player.equipment;
-                        var total = inventory.length;
-
-
+                        total = inventory.length;
 
                         //TODO this could be optimized a little better
                         this.collection = {};
                         this.collectionKeys = [];
                         var item;
-                        var i;
                         for (i = 0 ; i < total; i++)
                         {
                             item = inventory[i];
@@ -67,32 +67,31 @@ ig.module(
                                 this.collection[item.name] = 0;
                                 console.log("New Collection", item.name)
                                 //TODO need to push in name and value
-                                this.collectionKeys.push(item.name);
+                                this.collectionKeys.push({name:item.name, value: item.value});
                             }
                             this.collection[item.name] += item.id;
                         }
 
                         this.invalidate = false;
 
-                        console.log("collection", this.collection)
-
                         //TODO sort collection keys alphabetically
+                        this.collectionKeys.sort();
 
-                        this.collectionKey.sort();
-
+                        console.log("this.collectionKey", this.collectionKeys);
 
                     }
                 }
 
 
+                total = this.collectionKeys.length;
 
-                for (var i = 0 ; i < this.collectionKeys.length; i++)
+                for (i = 0 ; i < total; i++)
                 {
-                    var name =  this.collectionKeys[i];
-                    var total =  this.collection[this.collectionKeys[i]];
+                    var name =  this.collectionKeys[i].name;
+                    var totalItems =  this.collection[name];
                     //TODO need to come up with a better way to handle the score but this is a good hack for now
-                    var points =  total * 100 * (i+1);
-                    this.menuFont.draw(total + " " +name+((total > 1) ? "s" : "")+": "+ points, x, y+(10 * (i+1)), ig.Font.ALIGN.CENTER);
+                    var points =  totalItems * this.collectionKeys[i].value * (i+1);
+                    this.menuFont.draw(name+((totalItems > 1) ? "s" : "")+": "+ points, x, y+(10 * (i+1))+10, ig.Font.ALIGN.CENTER);
                 }
             }
 
