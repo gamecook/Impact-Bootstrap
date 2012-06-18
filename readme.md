@@ -191,6 +191,9 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * Added prototype to Math class to support randomRange(min, max)
 * Starting to move new utility classes into `ig.utils` namespace instead of prototyping main classes in JS. First one is `ig.utils.randomRange(min, max)` which allows you to get a random number between a set range. *(I will be converting other string utils to this format as well moving forward)*
 * Cleaned up animation issue in base actor, player and monster that would throw an error if no animation was set in the constructor. 
+* Fixed player to change alpha based on invincibility flag.
+* Modified base-monster to now turn around when colliding with the player.
+* Refactored `shakeScreen()` method injected into `ig.game` class to now accept duration and strength. Now the camera class's `shake()` method automatically defaults to duration of 1 and strength of 3 if none are supplied. 
 
 **v0.2.0-alpha**
 

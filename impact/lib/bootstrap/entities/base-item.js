@@ -22,7 +22,7 @@ ig.module(
         EntityBaseItem = ig.Entity.extend({
             _wmIgnore: true,
             checkAgainst:ig.Entity.TYPE.A,
-            collides:ig.Entity.COLLIDES.PASSIVE,
+            collides:ig.Entity.COLLIDES.LITE,
             equipable: false,
             equipped: false,
             init:function (x, y, settings)

@@ -193,7 +193,20 @@ ig.module(
             equip:function(target)
             {
                 this.parent(target);
-                ig.game.displayCaption("You Have Picked Up A "+target.name.capitalize()+".", 2);
+                ig.game.displayCaption("You Have Picked Up A "+target.toString().capitalize()+".", 2);
+            },
+            receiveDamage: function(value, from)
+            {
+                if(!this.invincible)
+                    ig.game.shakeScreen(1, 2);
+
+                this.parent(value, from);
+
+            },
+            onFallToDeath:function ()
+            {
+                this.parent();
+                ig.game.shakeScreen(1, 4);
             }
         });
 

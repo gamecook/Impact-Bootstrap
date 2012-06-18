@@ -129,6 +129,7 @@ ig.module(
             {
                 this.invincible = true;
                 this.captionTimer.reset();
+                //this.collides = ig.Entity.COLLIDES.NONE;
             },
             equip:function (target)
             {
@@ -142,6 +143,9 @@ ig.module(
                     this.invincible = false;
                     if(this.currentAnim)
                         this.currentAnim.alpha = 1;
+
+                    //Reset active collision setting
+                    //this.collides = ig.Entity.COLLIDES.ACTIVE;
                 }
 
                 if (this.visible)
@@ -160,19 +164,17 @@ ig.module(
                 if (!this.visible)
                     return;
 
-                if (this.invincible)
-                    this.currentAnim.alpha = this.captionTimer.delta() / this.invincibleDelay * 1;
-
-
-                //TODO alpha is not showing up correctly on the player now when a level starts
-                //Hack to allow you to override invincible effect
+                //TODO do we really need this?
                 if(this.currentAnim)
                 {
                     if (!this.visible)
-                        this.currentAnim.alpha = false;
+                        this.currentAnim.alpha = 0;
                     else
-                        this.currentAnim.alpha = true;
+                        this.currentAnim.alpha = 1;
                 }
+
+                if (this.invincible)
+                    this.currentAnim.alpha = this.captionTimer.delta() / this.invincibleDelay * 1 + .2;
 
                 this.parent();
             },

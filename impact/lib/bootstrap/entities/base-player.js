@@ -25,7 +25,7 @@ ig.module(
             jump:200,
             type:ig.Entity.TYPE.A,
             checkAgainst:ig.Entity.TYPE.NONE,
-            collides:ig.Entity.COLLIDES.PASSIVE,
+            collides:ig.Entity.COLLIDES.ACTIVE,
             bloodColorOffset:0, // By default this is set to 0
             update:function ()
             {
@@ -82,6 +82,12 @@ ig.module(
             onKill:function ()
             {
                 ig.game.onPlayerDeath();
+            },
+            receiveDamage:function (value, from)
+            {
+                this.parent(value, from);
+                if(!this.invincible)
+                    this.makeInvincible();
             }
         });
 

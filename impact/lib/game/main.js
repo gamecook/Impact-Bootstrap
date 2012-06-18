@@ -16,6 +16,6 @@ ig.module(
         ig.Sound.enabled = false;
 
     // ig.gameSize is automatically defined by the platform template you use or you can manually set it yourself
-    ig.main('#canvas', StartScreen, 60, ig.gameSize.width, ig.gameSize.height, ig.gameSize.scale * ig.ua.pixelRatio);
+    ig.main('#canvas', StartScreen, 60, ig.gameSize.width, ig.gameSize.height, ig.gameSize.scale);
 
 });

@@ -24,6 +24,8 @@ ig.module(
             type:ig.Entity.TYPE.B,
             checkAgainst:ig.Entity.TYPE.A,
             collides:ig.Entity.COLLIDES.PASSIVE,
+            collisionDamage: 1,
+            lookAhead: 0,
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
@@ -34,15 +36,18 @@ ig.module(
             {
                 // near an edge? return!
                 if (ig.game.collisionMap.getTile(
-                    this.pos.x + (this.flip ? +4 : this.size.x - 4),
+                    this.pos.x + (this.flip ? - this.lookAhead : this.size.x + this.lookAhead),
                     this.pos.y + this.size.y + 1
                 ) == 0
                     && this.standing)
                 {
                     this.flip = !this.flip;
                 }
+
+                //TODO need to look into why monsters get stuck and switch back and forth on edges, maybe need a delay?
                 var xdir = this.flip ? -1 : 1;
                 this.vel.x = this.speed * xdir;
+
                 if(this.currentAnim)
                     this.currentAnim.flip.x = this.flip;
 
@@ -59,7 +64,14 @@ ig.module(
             },
             check:function (other)
             {
-                other.receiveDamage(10, this);
+                other.receiveDamage(this.collisionDamage, this);
+
+                // Player is on top of monster so just keep walking in same direction
+                if(other.pos.y > this.pos.y)
+                    return;
+
+                // Test what side the player is on and flip direction based on that.
+                this.flip = (other.pos.x > this.pos.x) ? true : false;
             }
         });
 

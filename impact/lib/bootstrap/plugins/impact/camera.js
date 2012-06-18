@@ -146,8 +146,8 @@ ig.module(
             },
             shake:function (duration, strength, ignoreShakeLock)
             {
-                this.duration = duration;
-                this.strength = strength;
+                this.duration = duration ? duration : 1;
+                this.strength = strength ? strength : 3;
 
                 if (!ignoreShakeLock && this.quakeRunning)
                 {
@@ -178,10 +178,11 @@ ig.module(
                 if(playerInstance)
                     this.camera.set(playerInstance);
             },
-            shakeScreen:function (ignoreShakeLock)
+            //TODO should I add in duration & strength arguments?
+            shakeScreen:function (duration, strength, ignoreShakeLock)
             {
                 if (this.camera)
-                    this.camera.shake(1, 3, ignoreShakeLock);
+                    this.camera.shake(duration, strength, ignoreShakeLock);
             },
             updateEntities:function ()
             {
