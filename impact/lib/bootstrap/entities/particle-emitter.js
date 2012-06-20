@@ -99,8 +99,8 @@ ig.module(
                 this.idleTimer = new ig.Timer();
             },
             update: function() {
-                if(this.currentAnim.alpha < .1)
-                    return;
+                /*if(this.currentAnim.alpha < .1)
+                    return;*/
 
                 if( this.idleTimer.delta() > this.lifetime ) {
                     this.kill();
