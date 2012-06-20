@@ -1,5 +1,15 @@
+/**
+ *  @particle-emitter.js
+ *  @version: 1.00
+ *  @author: Jesse Freeman
+ *  @date: May 2012
+ *  @copyright (c) 2012 Jesse Freeman, under The MIT License (see LICENSE)
+ *
+ *  This entity is useful for spawning particles on an entity. The class
+ *  comes with a few standard particles such as fire, water and snow.
+ */
 ig.module(
-    'bootstrap.demos.jetroid.entities.particle-emitter'
+    'bootstrap.entities.particle-emitter'
 )
     .requires(
     'impact.entity'
@@ -89,6 +99,9 @@ ig.module(
                 this.idleTimer = new ig.Timer();
             },
             update: function() {
+                if(this.currentAnim.alpha < .1)
+                    return;
+
                 if( this.idleTimer.delta() > this.lifetime ) {
                     this.kill();
                     return;
@@ -151,7 +164,6 @@ ig.module(
             maxVel: {x: 50, y: 150},
             vel: {x: 40, y: 0},
             friction: {x:10, y: 100},
-            collides: ig.Entity.COLLIDES.LITE,
             colorOffset: 5,
             init: function( x, y, settings ) {
                 this.parent( x, y, settings );
@@ -166,7 +178,6 @@ ig.module(
             friction: {x:100, y: 100},
             lifetime: 3,
             fadetime: 3,
-            collides: ig.Entity.COLLIDES.LITE,
             colorOffset: 4,
             totalColors: 7,
             init: function( x, y, settings ) {

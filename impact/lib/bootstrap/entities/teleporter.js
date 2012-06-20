@@ -10,7 +10,7 @@
  */
 
 ig.module(
-    'bootstrap.demos.jetroid.entities.teleporter'
+    'bootstrap.entities.teleporter'
 )
     .requires(
     'impact.entity'
@@ -27,7 +27,7 @@ ig.module(
             checkAgainst:ig.Entity.TYPE.A,
             target:null,
             targets:[],
-            debug: true,
+            debug: false,
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
@@ -52,7 +52,10 @@ ig.module(
                 if (this.debug)
                 {
                     ig.system.context.fillStyle = 'rgba(255,0,255,0.3)';
-                    ig.system.context.fillRect(ig.system.getDrawPos( this.pos.x ), ig.system.getDrawPos( this.pos.y ), this.size.x, this.size.y);
+                    ig.system.context.fillRect(ig.system.getDrawPos(this.pos.x.round() - ig.game.screen.x),
+                        ig.system.getDrawPos(this.pos.y.round() - ig.game.screen.y),
+                        this.size.x * ig.system.scale,
+                        this.size.y * ig.system.scale);
                 }
             }
         });

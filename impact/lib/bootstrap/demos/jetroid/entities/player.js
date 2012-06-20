@@ -8,7 +8,7 @@ ig.module(
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/player.png', 16, 16),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/jetroid/images/player.png', 16, 16),
             size:{x:8, y:14},
             offset:{x:4, y:2},
             emptySFX:new ig.Sound('media/bootstrap/sounds/Empty.*'),

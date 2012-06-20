@@ -7,7 +7,7 @@ ig.module(
     .defines(function () {
         EntityAlienA = EntityBaseMonster.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/alien-a.png', 16, 16),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/jetroid/images/alien-a.png', 16, 16),
             size: {x:8, y:10},
             offset:{x:4,y:6},
             lookAhead: 5,

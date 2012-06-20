@@ -13,8 +13,8 @@ ig.module(
         /* Empty module to require all bootstrap plugins */
 
         MyGame.inject({
-            meters: new ig.Image("lib/bootstrap/demos/jetroid/media/meters.png"),
-            icons: new ig.Image("lib/bootstrap/demos/jetroid/media/powerups.png"),
+            meters: new ig.Image("media/bootstrap/demos/jetroid/images/meters.png"),
+            icons: new ig.Image("media/bootstrap/demos/jetroid/images/powerups.png"),
             meterWidth: 60,
             meterHeight: 9,
             meterPadding: 5,

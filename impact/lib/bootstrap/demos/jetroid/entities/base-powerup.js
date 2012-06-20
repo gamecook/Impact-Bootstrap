@@ -8,7 +8,7 @@ ig.module(
     .defines(function () {
         EntityBasePowerup = EntityBaseItem.extend({
             _wmIgnore: true,
-            animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/powerups.png', 10, 9),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/jetroid/images/powerups.png', 10, 9),
             powerUpProperty: "",
             value: 0,
             spriteID:0,

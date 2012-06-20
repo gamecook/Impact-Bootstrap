@@ -8,7 +8,7 @@ ig.module(
     .defines(function () {
         EntityArtifact = EntityBaseChachki.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/artifacts.png', 5, 9),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/jetroid/images/artifacts.png', 5, 9),
             name: "Artifact",
             types: ["Worthless", "Normal", "Special","Rare"],
             size: {x:5, y:9}

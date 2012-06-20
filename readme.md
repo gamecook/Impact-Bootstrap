@@ -134,7 +134,9 @@ The entities in the root of the Bootstrap entity directory can be used as is. Th
 * **elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
 * **levelexit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
 * **outofbounds.js** is an invisible area that calls an `outofbounds()` handler on any entity that collides with it. This method is automatically added to any entity that extends the base-actor class. It is useful for holes in floors or areas that should instantly kill an entity.
+*  **particle-emitter.js** handles spawning particles on an entity. Simply provide a target and the name of the particle entity you want to spawn and the emitter will handle managing pooling of each instance. There are several built in particles such as fire(`EntityFirerParticle`), snow(`EntitySnowParticle`) and water(`EntityWaterParticle`). *(I'll be adding in more particles and templates for the emitter to help simulate different effects)*
 * **spawner.js** - will spawn other entities based on a set time and has a built-in object pool. When an entity is created via the spawner, they will get a reference to the spawner instance in the settings object passed into the `init()` constructor. This allows spawned entities to call back to the spawner when destroyed in order to return to the pool.
+* **teleporter.js** is a simple entity that can move the player over to a target or random targets depending on how many are passed into the teleporter instance.
 * **text.js** is a simple entity that can display text on maps. This is useful for anywhere you would need text on a map without having to generate tiles for it. Also, these entities can be set to *fixed* collision so other entities can stand on them. *(This entity still needs to be optimized and incurs in a `draw()` call for every letter being rendered. Future versions of this entity will cache its bitmap data to speed up rendering.)*
 * **void.js** is an entity with no visuals or logic and is intended to be used as targets 
 spawners, platforms and elevators.
@@ -194,6 +196,7 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * Fixed player to change alpha based on invincibility flag.
 * Modified base-monster to now turn around when colliding with the player.
 * Refactored `shakeScreen()` method injected into `ig.game` class to now accept duration and strength. Now the camera class's `shake()` method automatically defaults to duration of 1 and strength of 3 if none are supplied. 
+* Created `particle-emitter.js` class in the bootstrap.
 
 **v0.2.0-alpha**
 
@@ -237,9 +240,7 @@ I will continue to add more artwork for each of the game templates as well as mo
 I plan on porting over other entities from my games such as:
 
 * **barricade.js** is a destructible object that can be placed to slow down monsters.
-* **fountain.js** shows off how to summate water with the particle emitter class.
 * **power-up-spawner.js** allows you to spawn monsters that grow increasingly stronger as they return back to the object pool.
-* **snow-emitter.js** will show off how to do subtle particle effects such as snow and debris in the area via the particle emitter.
 * **spawn-boss.js** is a trigger to spawn a boss battle when the player enters a location on the map.
 
 ###Documentation On Platform Plugins

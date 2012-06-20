@@ -15,7 +15,7 @@ ig.module(
         /* Empty module to require all bootstrap plugins */
 
         MyGame.inject({
-            lightMask: new ig.Image('lib/bootstrap/demos/jetroid/media/lighting.png'), //TODO need to move this into the specific game
+            lightMask: new ig.Image('media/bootstrap/demos/jetroid/images/lighting.png'), //TODO need to move this into the specific game
             exitedLevel: false,
             init: function()
             {

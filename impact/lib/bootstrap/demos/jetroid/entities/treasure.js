@@ -8,7 +8,7 @@ ig.module(
     .defines(function () {
         EntityTreasure = EntityBaseChachki.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('lib/bootstrap/demos/jetroid/media/treasure.png', 10, 10),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/jetroid/images/treasure.png', 10, 10),
             name: "Treasure Chest",
             types: ["Empty", "Lite", "Heavy","Full"],
             size: {x:10, y:10}
