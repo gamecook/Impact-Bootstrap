@@ -18,7 +18,8 @@ ig.module(
     'bootstrap.plugins.impact.utils',
     'bootstrap.plugins.impact.caption',
     'bootstrap.plugins.impact.pause',
-    'bootstrap.plugins.impact.camera'
+    'bootstrap.plugins.impact.camera',
+    'bootstrap.plugins.impact.mini-map'
 )
     .defines(function ()
     {

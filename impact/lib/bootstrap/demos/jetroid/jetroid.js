@@ -17,6 +17,7 @@ ig.module(
         MyGame.inject({
             lightMask: new ig.Image('media/bootstrap/demos/jetroid/images/lighting.png'), //TODO need to move this into the specific game
             exitedLevel: false,
+            showMiniMap: true,
             init: function()
             {
                 this.parent();
@@ -48,6 +49,14 @@ ig.module(
                 } else {
                     this.parent();
                 }
+            },
+            onPause: function(){
+                this.parent();
+                this.showMiniMap = false;
+            },
+            onResume: function(){
+                this.parent();
+                this.showMiniMap = true;
             }
 
         })
