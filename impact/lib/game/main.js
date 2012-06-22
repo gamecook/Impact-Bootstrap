@@ -2,7 +2,8 @@ ig.module(
     'game.main'
 )
     .requires(
-    'bootstrap.demos.jetroid.jetroid', // Change this to any demo you want to run
+    /*'bootstrap.demos.jetroid.jetroid',*/ // Change this to any demo you want to run
+    'bootstrap.demos.resident-raver.resident-raver', // Change this to any demo you want to run
     'bootstrap.platforms.web', // You can change this out to another platform
     'impact.debug.debug'
 )

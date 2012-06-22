@@ -77,7 +77,7 @@ ig.module(
 
             displayCaption:function (value, delay)
             {
-                this.captionInstance.show(value, delay);
+                this.captionInstance.show(value, delay ? delay : 2);
             },
             hideCaption:function ()
             {

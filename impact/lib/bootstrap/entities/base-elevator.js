@@ -20,31 +20,27 @@
  */
 
 ig.module(
-    'bootstrap.entities.elevator'
+    'bootstrap.entities.base-elevator'
 )
     .requires(
     'impact.entity',
-    'bootstrap.entities.platform'
+    'bootstrap.entities.base-platform'
 
 )
     .defines(function ()
     {
 
-        EntityElevator = EntityPlatform.extend({
-            size:{x:32, y:48},
+        EntityBaseElevator = EntityBasePlatform.extend({
+            _wmIgnore: true,
             type:ig.Entity.TYPE.NONE,
             collides:ig.Entity.COLLIDES.NONE,
             cord:null,
             cords:[],
             zIndex:-1,
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/elevator.png', 32, 48),
+
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
-
-                this.addAnim('idle', 1, [0]);
-                this.addAnim('up', 1, [1]);
-                this.addAnim('down', 1, [2]);
 
                 this.cords = ig.ksort(this.cord);
 
@@ -63,12 +59,6 @@ ig.module(
                     this.bottomEntity.vel.y = this.vel.y;
                 }
 
-                if (this.angle < 0)
-                    this.currentAnim = this.anims.up;
-                else if (this.angle > 0)
-                    this.currentAnim = this.anims.down;
-                else
-                    this.currentAnim = this.anims.idle;
             },
             onReachTarget:function ()
             {

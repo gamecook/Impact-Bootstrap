@@ -130,8 +130,8 @@ Core entities are 'abstract classes' designed to allow you to extend them in you
 ####Ready-To-Use Entities
 The entities in the root of the Bootstrap entity directory can be used as is. These entities do have some dependencies on artwork in the media folder, but you can simply inject new properties into them if you need to resize or replace artwork. Here is a list of the ready-to-use entities:
 
-* **door.js** is simple door that allows the player to hide inside without taking damage. The door can be extended to offer rewards to the player for going inside or when leaving.
-* **elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
+* **base-door.js** is simple door that allows the player to hide inside without taking damage. The door can be extended to offer rewards to the player for going inside or when leaving.
+* **base-elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
 * **levelexit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
 * **outofbounds.js** is an invisible area that calls an `outofbounds()` handler on any entity that collides with it. This method is automatically added to any entity that extends the base-actor class. It is useful for holes in floors or areas that should instantly kill an entity.
 *  **particle-emitter.js** handles spawning particles on an entity. Simply provide a target and the name of the particle entity you want to spawn and the emitter will handle managing pooling of each instance. There are several built in particles such as fire(`EntityFirerParticle`), snow(`EntitySnowParticle`) and water(`EntityWaterParticle`). *(I'll be adding in more particles and templates for the emitter to help simulate different effects)*
@@ -143,7 +143,7 @@ spawners, platforms and elevators.
 * **weapons.js** - is a base set of weapons for players and enemies to use. This package includes the build to build automatic and non-automatic weapons and projectiles such as grenades.
 
 If you are unfamiliar with how injection works in Impact, here is a quick example of how to 
-change out the artwork, size and speed of the `elevator.js` entity:
+change out the artwork, size and speed of the `base-elevator.js` entity:
 
        Example is coming soon!
        

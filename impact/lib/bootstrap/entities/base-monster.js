@@ -26,6 +26,7 @@ ig.module(
             collides:ig.Entity.COLLIDES.PASSIVE,
             collisionDamage: 1,
             lookAhead: 0,
+            stayOnPlatform: true,
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
@@ -34,14 +35,22 @@ ig.module(
             },
             update:function ()
             {
-                // near an edge? return!
-                if (ig.game.collisionMap.getTile(
-                    this.pos.x + (this.flip ? - this.lookAhead : this.size.x + this.lookAhead),
-                    this.pos.y + this.size.y + 1
-                ) == 0
-                    && this.standing)
+                this.parent();
+                this.onUpdateAI();
+            },
+            onUpdateAI: function()
+            {
+                if(this.stayOnPlatform)
                 {
-                    this.flip = !this.flip;
+                    // near an edge? return!
+                    if (ig.game.collisionMap.getTile(
+                        this.pos.x + (this.flip ? - this.lookAhead : this.size.x + this.lookAhead),
+                        this.pos.y + this.size.y + 1
+                    ) == 0
+                        && this.standing)
+                    {
+                        this.flip = !this.flip;
+                    }
                 }
 
                 //TODO need to look into why monsters get stuck and switch back and forth on edges, maybe need a delay?
@@ -50,8 +59,6 @@ ig.module(
 
                 if(this.currentAnim)
                     this.currentAnim.flip.x = this.flip;
-
-                this.parent();
             },
             handleMovementTrace:function (res)
             {

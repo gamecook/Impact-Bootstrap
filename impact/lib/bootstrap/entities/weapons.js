@@ -38,6 +38,72 @@ ig.module(
             }
         })
 
+        EntityBasePlayer.inject({
+            weapon: 0,
+            activeWeapon: "none",
+            shotPressed: false,
+            fireDelay: null,
+            fireRate: 0,
+            maxPool: 2,
+            update: function()
+            {
+
+                if(this.shotPressed)
+                {
+                    if( this.fireDelay.delta() > this.fireRate ) {
+                        this.fireWeapon();
+                        this.fireDelay.reset();
+                    }
+                }
+
+                this.parent();
+
+            },
+            fireWeapon: function(){
+
+                if(this.activeWeapon == "none")
+                    return;
+
+                if(this.maxPool == -1 || this.pool < this.maxPool )
+                {
+                    //console.log("Pool", this.pool, this.pool < this.maxPool)
+                    var entity = ig.game.spawnEntity( this.activeWeapon, this.pos.x, this.pos.y, {flip:this.flip, parentEntity: this} );
+                    this.addWeaponToPool();
+                    this.maxPool = entity.maxPool;
+                    this.shotPressed = entity.automatic;
+
+                    this.fireRate = entity.automatic ? entity.fireRate : 0;
+
+                    var accel = this.standing ? this.accelGround : this.accelAir;
+                    if( !this.flip ) {
+                        this.accel.x = -accel * entity.recoil;
+                    }else {
+                        this.accel.x = accel * entity.recoil;
+                    }
+                    this.fireDelay.reset();
+                }
+            },
+            fireWeaponRelease: function()
+            {
+                this.shotPressed = false;
+            },
+            addWeaponToPool: function()
+            {
+                this.pool ++;
+            },
+            removeWeaponFromPool: function()
+            {
+                this.pool --;
+                if(this.pool < 0) this.pool = 0;
+            },
+            clearWeaponPool:function()
+            {
+                this.pool = 0;
+                this.maxPool = -1;
+            }
+
+        })
+
         EntityBullet = EntityWeapons.extend({
             size:{x:5, y:3},
             animSheet:new ig.AnimationSheet('media/bootstrap/images/bullet.png', 5, 3),

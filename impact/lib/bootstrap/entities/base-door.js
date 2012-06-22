@@ -8,7 +8,7 @@
  */
 
 ig.module(
-    'bootstrap.entities.door'
+    'bootstrap.entities.base-door'
 )
     .requires(
     'impact.entity',
@@ -18,21 +18,17 @@ ig.module(
     .defines(function ()
     {
 
-        EntityDoor = ig.Entity.extend({
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/door.png', 16, 32),
-            size:{x:16, y:32},
+        EntityBaseDoor = ig.Entity.extend({
+            _wmIgnore: true,
             checkAgainst:ig.Entity.TYPE.A,
             zIndex:-1,
             locked:false,
             isClosing:false,
             isOpening:false,
-            doorSFX:new ig.Sound('media/bootstrap/sounds/OpenDoor.*'),
+
             init:function (x, y, settings)
             {
                 this.parent(x, y, settings);
-                this.addAnim('idle', 1, [0], true);
-                this.addAnim('open', .1, [0, 1, 2, 3, 2, 1, 0], true);
-                this.addAnim('locked', 1, [4], true);
                 this.activate(this.locked);
             },
             check:function (other)
@@ -56,34 +52,14 @@ ig.module(
             {
                 this.isOpening = true;
                 this.target = target;
-                this.currentAnim = this.anims.open;
-                this.currentAnim.rewind();
-                this.doorSFX.play();
             },
             onOpen:function ()
             {
                 this.isOpening = false;
             },
-            update:function ()
-            {
-                this.parent();
-                if (this.currentAnim == this.anims.open)
-                {
-                    if (this.currentAnim.loopCount)
-                    {
-                        if (this.isClosing)
-                            this.onClose();
-                        if (this.isOpening)
-                            this.onOpen()
-                    }
-                }
-            },
             close:function ()
             {
                 this.isClosing = true;
-                this.currentAnim = this.anims.open;
-                this.currentAnim.rewind();
-                this.doorSFX.play();
             },
             onClose:function ()
             {
@@ -91,18 +67,7 @@ ig.module(
             },
             activate:function (value)
             {
-                if (!value)
-                {
-                    this.currentAnim = this.anims.idle;
-                } else
-                {
-                    this.currentAnim = this.anims.locked;
-                }
                 this.locked = value;
-            },
-            kill:function ()
-            {
-                this.parent();
             }
         });
 
@@ -115,7 +80,6 @@ ig.module(
                 // Logic for entering doors
                 if (ig.input.pressed('open') && this.standing)
                 {
-                    console.log("Open Door");
                     if (this.currentDoor && this.visible)
                     {
                         this.openDoor();

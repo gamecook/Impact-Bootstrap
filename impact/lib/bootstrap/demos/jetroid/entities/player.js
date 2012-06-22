@@ -3,7 +3,8 @@ ig.module(
 )
     .requires(
     'bootstrap.entities.base-player',
-    'impact.sound'
+    'impact.sound',
+    'bootstrap.plugins.impact.caption'
 )
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({

@@ -20,7 +20,7 @@
  */
 
 ig.module(
-    'bootstrap.entities.platform'
+    'bootstrap.entities.base-platform'
 )
     .requires(
     'impact.entity',
@@ -29,9 +29,10 @@ ig.module(
 )
     .defines(function ()
     {
-        EntityPlatform = ig.Entity.extend({
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/elevator.png', 32, 10),
-            size:{x:32, y:10},
+        EntityBasePlatform = ig.Entity.extend({
+            /*animSheet:new ig.AnimationSheet('media/bootstrap/images/elevator.png', 32, 10),
+            size:{x:32, y:10},*/
+            _wmIgnore: true,
             type:ig.Entity.TYPE.B,
             checkAgainst:ig.Entity.TYPE.BOTH,
             collides:ig.Entity.COLLIDES.FIXED,
