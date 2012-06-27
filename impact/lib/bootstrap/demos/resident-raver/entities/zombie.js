@@ -16,6 +16,7 @@ ig.module(
             hitSoftSFX: new ig.Sound( 'media/sounds/HitSoft.*' ),
             spawner: null,
             stayOnPlatform: false,
+            bloodColorOffset:1,
             init: function(x, y, settings)
             {
                 this.parent(x, y, settings);

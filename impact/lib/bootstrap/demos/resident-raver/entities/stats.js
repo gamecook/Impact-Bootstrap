@@ -25,7 +25,8 @@ EntityStats = ig.Entity.extend({
         this.parent(x,y,settings);
         if(typeof wm == "undefined")
         {
-            //this.storage = new ig.Storage();
+            this.storage = new ig.Storage();
+            ig.game.cameraOffsetY = -16;
         }
 
         //TODO this entire class's display needs to be cashed since it doens't update

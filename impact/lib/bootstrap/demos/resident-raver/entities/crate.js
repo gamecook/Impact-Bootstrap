@@ -9,6 +9,7 @@ ig.module(
     .defines(function () {
         EntityCrate = EntityBaseActor.extend({
             _wmIgnore: false,
+            bloodColorOffset:3,
             animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/crate.png', 10, 10),
             size:{x:10, y:10},
             maxVel:{x:0, y:100},
@@ -29,6 +30,11 @@ ig.module(
                 this.addAnim('idle', .07, [0 + offset]);
             },
             receiveDamage:function(value, from) {
+
+                //Ignore damage from anything standing above this entity
+                if((from.pos.y+from.size.y-3) < this.pos.y)
+                    return;
+
                 this.parent(value, from);
 
                 //TODO this is kind of hard coded to make any Type B entity who hits it flip.

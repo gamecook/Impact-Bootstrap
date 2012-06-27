@@ -82,7 +82,7 @@ ig.module(
 
             var cameraMinY = this.showHUD ? this.hudOffset : 0;
 
-            this.stats = {time:0, deaths:0};
+            //this.stats = {time:0, deaths:0};
             this.parent(data);
 
             // Track Level
@@ -135,8 +135,12 @@ ig.module(
             // Set the isGameOver and pause value to false
             this.isGameOver = this.paused = true;
 
+            this.showDeathMessage();
+        },
+        showDeathMessage: function()
+        {
             // Show the game over menu
-            this.showMenu(new Menu("Game Over"));
+            //this.showMenu(new Menu("Game Over"));
         },
         reloadLevel:function ()
         {

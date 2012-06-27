@@ -48,7 +48,7 @@ ig.module(
             bounciness:0,
             vel:{x:100, y:30},
             friction:{x:100, y:0},
-            collides:ig.Entity.COLLIDES.LITE,
+            collides:ig.Entity.COLLIDES.NONE,
             colorOffset:0,
             totalColors:7,
             baseVelocity:{x:2, y:2},

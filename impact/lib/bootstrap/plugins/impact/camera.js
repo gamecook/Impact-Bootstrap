@@ -82,13 +82,14 @@ ig.module(
                 this.pos.y = this.entity.pos.y - this.offset.y;
                 this.trap.pos.x = this.entity.pos.x - this.trap.size.x / 2;
                 this.trap.pos.y = this.entity.pos.y - this.trap.size.y;
+                ig.game.screen.x = this.pos.x;
+                ig.game.screen.y = this.pos.y;
             },
             update:function ()
             {
                 if(this.entity)
                 {
                     this.pos.x = this.move('x', this.entity.pos.x, this.entity.size.x);
-
                     this.pos.y = this.move('y', this.entity.pos.y, this.entity.size.y);
                     ig.game.screen.x = this.pos.x;
                     ig.game.screen.y = this.pos.y;
@@ -165,18 +166,30 @@ ig.module(
             {
                 this.parent(data);
 
+                // Attempt to automatically find the player by name
+                var playerInstance = this.getEntityByName("player");
+
+                // If player instance exists, set it as the camera's target
+                if(playerInstance)
+                {
+                    //TODO need to trigger this in the configureCamera
+                    this.camera.set(playerInstance);
+                    this.configureCamera();
+                }
+                else
+                    console.log("Error: Couldn't find player for camera.")
+
+
+
+            },
+            configureCamera: function()
+            {
                 //TODO need to explain this better
                 // This sets the camera's max x to the width of the screen
                 this.camera.max.x = this.collisionMap.width * this.collisionMap.tilesize - ig.system.width;
                 this.camera.min.y = 0;
                 this.camera.max.y = this.collisionMap.height * this.collisionMap.tilesize - ig.system.height;
 
-                // Attempt to automatically find the player by name
-                var playerInstance = this.getEntityByName("player");
-
-                // If player instance exists, set it as the camera's target
-                if(playerInstance)
-                    this.camera.set(playerInstance);
             },
             //TODO should I add in duration & strength arguments?
             shakeScreen:function (duration, strength, ignoreShakeLock)

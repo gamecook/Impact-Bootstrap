@@ -55,7 +55,7 @@ ig.module(
 
             //TODO should I have touch and keyboard text?
             'text':{
-                "defaultCaption":"Fly Out Of Exit To End The Game!"
+                "defaultCaption":""
 
             },
             'game':{

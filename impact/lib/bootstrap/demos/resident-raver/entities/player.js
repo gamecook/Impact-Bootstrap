@@ -177,6 +177,7 @@ ig.module(
                                 break;
                         }
 
+
                         this.clearWeaponPool();
                     }
                     else

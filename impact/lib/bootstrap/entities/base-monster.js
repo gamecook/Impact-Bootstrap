@@ -71,14 +71,18 @@ ig.module(
             },
             check:function (other)
             {
-                other.receiveDamage(this.collisionDamage, this);
+                //Do a quick test to make sure the other object is visible
+                if(other.visible)
+                {
+                    other.receiveDamage(this.collisionDamage, this);
 
-                // Player is on top of monster so just keep walking in same direction
-                if(other.pos.y > this.pos.y)
-                    return;
+                    // Player is on top of monster so just keep walking in same direction
+                    if(other.pos.y > this.pos.y)
+                        return;
 
-                // Test what side the player is on and flip direction based on that.
-                this.flip = (other.pos.x > this.pos.x) ? true : false;
+                    // Test what side the player is on and flip direction based on that.
+                    this.flip = (other.pos.x > this.pos.x) ? true : false;
+                }
             }
         });
 

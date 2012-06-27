@@ -2,10 +2,12 @@ ig.module(
     'game.main'
 )
     .requires(
+    'plugins.impact-splash-loader.impact-splash-loader',
     /*'bootstrap.demos.jetroid.jetroid',*/ // Change this to any demo you want to run
     'bootstrap.demos.resident-raver.resident-raver', // Change this to any demo you want to run
     'bootstrap.platforms.web', // You can change this out to another platform
     'impact.debug.debug'
+
 )
 
 .defines(function () {
@@ -17,6 +19,6 @@ ig.module(
         ig.Sound.enabled = false;
 
     // ig.gameSize is automatically defined by the platform template you use or you can manually set it yourself
-    ig.main('#canvas', StartScreen, 60, ig.gameSize.width, ig.gameSize.height, ig.gameSize.scale);
+    ig.main('#canvas', StartScreen, 60, ig.gameSize.width, ig.gameSize.height, ig.gameSize.scale, ig.ImpactSplashLoader);
 
 });

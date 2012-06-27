@@ -182,6 +182,9 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * StartGame.wav
 
 ##Change Log
+**v0.4.0-alpha**
+
+* Refactored 
 
 **v0.3.0-alpha**
 

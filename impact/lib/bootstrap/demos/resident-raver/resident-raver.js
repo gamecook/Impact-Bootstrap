@@ -17,9 +17,9 @@ ig.module(
     'bootstrap.demos.resident-raver.levels.reynolds',
     'bootstrap.demos.resident-raver.levels.salley',
     'bootstrap.demos.resident-raver.levels.smith',
-    'bootstrap.demos.resident-raver.entities.zombie'
-    /*'bootstrap.demos.jetroid.plugins.meters',
-    'bootstrap.demos.jetroid.plugins.stats'*/
+    'bootstrap.demos.resident-raver.entities.zombie', // Need to import zombies since we dynamically spawn them
+    'bootstrap.demos.resident-raver.plugins.stats',
+    'bootstrap.demos.resident-raver.plugins.local-storage'
 )
 
     .defines(function ()
@@ -32,30 +32,94 @@ ig.module(
             exitedLevel: false,
             showMiniMap: false,
             gravity:360,
+            currentLevelName:"dorms",
+            levelCounter:0,
+            showStats: true,
+            cameraOffsetY: 0,
             init: function()
             {
                 this.parent();
 
+
                 // Setup camera trap and light mask
-                this.camera.trap.size.x = ig.system.width / 3;
-                this.camera.trap.size.y = ig.system.height / 3;
+
                 //this.camera.lightMask = this.lightMask;
+            },
+            configureCamera: function()
+            {
+                //console.log("Configure Camera");
+                this.camera.debug = false;
+                this.camera.trap.size.x = 224 * ig.system.scale;
+                this.camera.trap.size.y = ig.system.height / 3;
+                //this.camera.offset.x = 0;
+                var cameraMinY = 0;//this.showStats ? -16 : 0;
+                this.camera.min.x = 8;
+                this.camera.max.x = this.collisionMap.width * this.collisionMap.tilesize - ig.system.width;
+                //TODO need a way to reset this
+                this.camera.min.y = this.cameraOffsetY;
+                this.camera.max.y = this.collisionMap.height * this.collisionMap.tilesize - ig.system.height;
+            },
+            loadLevel:function (data)
+            {
+                if(this.light)
+                    ig.game.lightManager.removeLight(this.light);
+
+                // Reset Default Values
+                this.defaultInstructions = "none";
+                this.showStats = true;
+                var defaultWeapon = 1;
+
+                this.currentLevel = data;
+
+                var cameraMinY = 0;//this.showStats ? -16 : 0;
+
+                this.parent(data);
+
+                this.levelCounter++;
+
+                // Track Level
+                this.tracking.trackPage("/game/load/level/"+this.currentLevelName);
+
+                // Looks for
+                var settings = this.getEntityByName("settings");
+                if (settings) {
+                    // Set properties supported by game engine if overriden by setting entity
+                    if (settings.showStats)
+                        this.showStats = settings.showStats == "true" ? true : false;
+
+                    if (settings.defaultInstructions)
+                        this.defaultInstructions = settings.defaultInstructions;
+
+                    if (settings.defaultWeapon)
+                        defaultWeapon = settings.defaultWeapon;
+
+                    if (settings.cameraMinY)
+                        cameraMinY = Number(settings.cameraMinY);
+
+                    //TODO add default weapon settings
+                }
+                else {
+                    // Reset value
+                }
+
+                //If there are no stats make sure the player doesn't have a weapon
+                if (this.showStats) {
+                    //ig.game.stats.ammo = 10;
+                    this.player.makeInvincible();
+
+                    //for testing
+                    //defaultWeapon = 5;
+                    this.player.equip(defaultWeapon, true);
+                }
+
+                if (this.defaultInstructions != "none")
+                    this.displayCaption(this.defaultInstructions, 7);
+
             },
             exitLevel: function (data) {
                 //Kills player and sets exitedLevel value to true
                 this.exitedLevel = true;
                 this.player.kill(true);
-            },
-            onPlayerDeath: function () {
-                if (this.exitedLevel) {
-                    this.isGameOver = true;
-                    this.togglePause(true);
-                    // Show the game over menu
-                    this.showMenu(new StatMenu("You Left The Level!"));
-                    
-                } else {
-                    this.parent();
-                }
             },
             reloadLevel: function () {
                 if (this.exitedLevel) {
@@ -65,14 +129,20 @@ ig.module(
                 }
             },
             onPause: function(){
+                this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
                 this.parent();
                 this.showMiniMap = false;
             },
             onResume: function(){
                 this.parent();
                 this.showMiniMap = true;
+            },
+            showDeathMessage: function()
+            {
+                // Show the game over menu
+                this.showMenu(new StatMenu("Game Over!"));
+                this.parent();
             }
-
         })
 
         StartScreen.inject({
@@ -95,5 +165,15 @@ ig.module(
             }
 
         })
+
+        /*Camera = ig.Class.inject({
+            currentLookAhead:{x:0, y:0},
+            set:function (entity) {
+                this.pos.x = this.offset.x;
+                //this.pos.y = entity.pos.y - this.offset.y;
+                this.trap.pos.x = entity.pos.x - this.trap.size.x / 2;
+                this.trap.pos.y = entity.pos.y - this.trap.size.y;
+            }
+        });*/
 
     });

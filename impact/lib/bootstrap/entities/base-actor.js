@@ -81,7 +81,7 @@ ig.module(
             },
             onDeathAnimation:function ()
             {
-                ig.game.spawnEntity(EntityDeathExplosion, this.pos.x, this.pos.y, {callBack:this.onKill});
+                ig.game.spawnEntity(EntityDeathExplosion, this.pos.x, this.pos.y, {colorOffset: this.bloodColorOffset, callBack:this.onKill});
 
                 //TODO need to think through this better
 
@@ -196,7 +196,7 @@ ig.module(
             repel:function (direction, force)
             {
 
-            },
+            }/*,
             fireWeapon:function ()
             {
                 //TODO need to flesh thsi out to support ammo and what not
@@ -221,12 +221,12 @@ ig.module(
 
                 //TODO need to let each weapon have its own power drain
                 this.energy--;
-                /*if(ig.game.stats.ammo < 1)
+                *//*if(ig.game.stats.ammo < 1)
                  {
                  this.equip(0);
                  this.emptySFX.play();
-                 }*/
-            }
+                 }*//*
+            }*/
         });
 
     });

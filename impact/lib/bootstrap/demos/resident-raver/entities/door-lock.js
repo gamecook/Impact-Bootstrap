@@ -8,7 +8,8 @@ ig.module(
 )
     .requires(
     'impact.entity',
-    'bootstrap.plugins.impact.caption'
+    'bootstrap.plugins.impact.caption',
+    'plugins.impact-storage.impact-storage'
 
 )
     .defines(function(){
@@ -30,16 +31,16 @@ ig.module(
                     var totalLevels = this.targets.length;
 
                     //TODO need some way of managing storage
-                    /*var storage = ig.game.storage;
+                    var storage = ig.game.storage;
 
                     var level = storage.getInt("level");
-                    var totalScore = storage.getInt("totalScore");*/
+                    var totalScore = storage.getInt("totalScore");
 
                     //For debug only
 
                     // Test level
-                    level = 14;
-                    totalScore = ((level-1) * ((level-1)+ 1)) * 1000;
+                    //level = 14;
+                    //totalScore = ((level-1) * ((level-1)+ 1)) * 1000;
 
                     // Test level up
                     //level = 15;
