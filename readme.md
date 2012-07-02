@@ -98,10 +98,10 @@ which tells the editor to load entities from the `lib/bootstrap/entities` direct
 ###Entities
 The Impact Bootstrap comes with its own set of entities, which you can use out of the box or 
 extend off of in order to help speed up game development. Entities are broken down into two 
-groups: core and ready to use.
+groups: base and ready to use.
 
-####Core Entities
-Core entities are 'abstract classes' designed to allow you to extend them in your own game. They cannot be directly placed on the map without being extended and finalized with artwork and logic. The Impact Bootstrap comes with a set of examples showing how to use these core entities, which you can find inside the `impact/entities` directory. Let's take a look at the core entities:
+####Base Entities
+Base entities are 'abstract classes' designed to allow you to extend them in your own game. They cannot be directly placed on the map without being extended and finalized with artwork and logic. The Impact Bootstrap comes with a set of examples showing how to use these base entities, which you can find inside the `impact/entities` directory. Let's take a look at the base entities:
 
 * **base-actor** represents any entity in your game that will move, have death animation and  possibly need some kind of AI. The base-actor supplies some stub methods and logic, such as the  ability to become "invincible", spawn particles when it receives damage or is killed, can be crushed by moving platforms, fall to its death (happens when the entity falls for too long then hits a *fixed* entity or something in the collision map) and more. Take a look at the class to see what has been added. The base-player and base-monster extend off this class.
 * **base-monster** is a template for a simple monster in your game. Right now, the monster knows how to walk back and forth on a platform without falling off. *(In the future, the base-monster will have additional AI, such as walking off platforms, follow the player and hooks to interact with other entities in the game world.)*
@@ -126,12 +126,13 @@ Core entities are 'abstract classes' designed to allow you to extend them in you
                 // Perform any cleanup needed when the right button is released
             } 
 * **base-item** is a template for items that an actor can pick up or equip in the game. It supports the notion of flagging the item as equipable which will hide the item entity on the game map but add it to an actor's inventory. From there you can handle each call to equip to do specific actions for each type of item. *(This item and it's full set of functionality is still being fleshed out.)
+* **base-door.js** is simple door that allows the player to hide inside without taking damage. The door can be extended to offer rewards to the player for going inside or when leaving.
+* **base-elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
+* **base-weapons.js** - is a base set of weapons for players and enemies to use. This package includes the build to build automatic and non-automatic weapons and projectiles such as grenades.
     
 ####Ready-To-Use Entities
 The entities in the root of the Bootstrap entity directory can be used as is. These entities do have some dependencies on artwork in the media folder, but you can simply inject new properties into them if you need to resize or replace artwork. Here is a list of the ready-to-use entities:
 
-* **base-door.js** is simple door that allows the player to hide inside without taking damage. The door can be extended to offer rewards to the player for going inside or when leaving.
-* **base-elevator.js** is a complex moving platform comprised of two invisibly moving platforms that stay in sync and form the top and bottom of the elevator. This allows the player to stand on top and not fall through the bottom of the elevator while still walking through it. It also has the ability to crush other entities that extend the `base-actor` class.
 * **levelexit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
 * **outofbounds.js** is an invisible area that calls an `outofbounds()` handler on any entity that collides with it. This method is automatically added to any entity that extends the base-actor class. It is useful for holes in floors or areas that should instantly kill an entity.
 *  **particle-emitter.js** handles spawning particles on an entity. Simply provide a target and the name of the particle entity you want to spawn and the emitter will handle managing pooling of each instance. There are several built in particles such as fire(`EntityFirerParticle`), snow(`EntitySnowParticle`) and water(`EntityWaterParticle`). *(I'll be adding in more particles and templates for the emitter to help simulate different effects)*
@@ -140,16 +141,6 @@ The entities in the root of the Bootstrap entity directory can be used as is. Th
 * **text.js** is a simple entity that can display text on maps. This is useful for anywhere you would need text on a map without having to generate tiles for it. Also, these entities can be set to *fixed* collision so other entities can stand on them. *(This entity still needs to be optimized and incurs in a `draw()` call for every letter being rendered. Future versions of this entity will cache its bitmap data to speed up rendering.)*
 * **void.js** is an entity with no visuals or logic and is intended to be used as targets 
 spawners, platforms and elevators.
-* **weapons.js** - is a base set of weapons for players and enemies to use. This package includes the build to build automatic and non-automatic weapons and projectiles such as grenades.
-
-If you are unfamiliar with how injection works in Impact, here is a quick example of how to 
-change out the artwork, size and speed of the `base-elevator.js` entity:
-
-       Example is coming soon!
-       
-Likewise, you could also extend the elevator class on your own and supply the same properties or create different versions of the elevator class like so:
-
-       Example is coming soon!
        
 Now that we have covered how plugins and entities work, let's look at the last directory that makes up the Impact Bootstrap:
 
@@ -157,7 +148,7 @@ Now that we have covered how plugins and entities work, let's look at the last d
 The resources directory includes artwork and sound effects you can use to help prototype out your game quickly without having to worry about creating new artwork. The resource directory is broken down into artwork and sound effects:
 
 ###Artwork
-More stock artwork will be added as the Impact Bootstrap evolves.
+More stock artwork will be added as the Impact Bootstrap evolves. Right now there is a core set of artwork which is used by a few of the Bootstrap entities as well as folders specifically set up for each of the demos. You are free to repurpose the demo game artwork for yourself.
 
 ###Sound Effects
 Impact Bootstrap comes with a set of pre-generated sound effects, which you can use as placeholders or put them in your final game. In addition to the source wavs, you get a *bfxrlibrary* to see how the originals were created with [bfxr](http://www.bfxr.net). You will also find MP3 and Ogg versions in the `media/bootstrap/sounds` folder for use in Impact. *(.caf files for iOS are coming soon.)*
@@ -184,11 +175,14 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 ##Change Log
 **v0.4.0-alpha**
 
+**This is a major update due to the number of classes that have been refactored **
+
 * Added Resident Raver demo game to bootstrap.
 * Refactored door, elevator, item, platform & weapon into base entities. You now need to extend these directly to use them. Look at the Resident Raver demo code for working examples of each.
 * Due to refactoring entities into base entities removed most of the non-generic images form the bootstrap media/images directory.
 * Added new mini-map class *(still needs work to allow it to be more flexible)*.
 * Added 3rd part plugins into the project folder. Resident Raver depends on a few of these plugins. They have been modified slightly to sit inside of their own directory and include license and readme files.
+* Noticed a bug in the bootstrap that breaks support for iOS and possibly Android. Will address in next release.
 
 **v0.3.0-alpha**
 
