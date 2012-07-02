@@ -184,7 +184,11 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 ##Change Log
 **v0.4.0-alpha**
 
-* Refactored 
+* Added Resident Raver demo game to bootstrap.
+* Refactored door, elevator, item, platform & weapon into base entities. You now need to extend these directly to use them. Look at the Resident Raver demo code for working examples of each.
+* Due to refactoring entities into base entities removed most of the non-generic images form the bootstrap media/images directory.
+* Added new mini-map class *(still needs work to allow it to be more flexible)*.
+* Added 3rd part plugins into the project folder. Resident Raver depends on a few of these plugins. They have been modified slightly to sit inside of their own directory and include license and readme files.
 
 **v0.3.0-alpha**
 

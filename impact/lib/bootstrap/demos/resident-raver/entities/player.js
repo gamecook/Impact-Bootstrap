@@ -5,7 +5,8 @@ ig.module(
     'bootstrap.entities.base-player',
     'impact.sound',
     'bootstrap.plugins.impact.caption',
-    'bootstrap.entities.weapons'
+    'bootstrap.entities.base-weapons',
+    'bootstrap.demos.resident-raver.entities.ammo'
 )
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({

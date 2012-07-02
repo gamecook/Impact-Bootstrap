@@ -1,112 +1,15 @@
-/**
- *  @levelexit.js
- *  @version: 1.00
- *  @author: Jesse Freeman
- *  @date: May 2012
- *  @copyright (c) 2012 Jesse Freeman, under The MIT License (see LICENSE)
- *
- */
-
 ig.module(
-    'bootstrap.entities.weapons'
+    'bootstrap.demos.resident-raver.entities.ammo'
 )
     .requires(
-    'impact.entity',
-    'impact.sound',
-    'bootstrap.entities.base-actor'
+    'bootstrap.entities.base-weapons',
+    'impact.sound'
 )
     .defines(function ()
     {
-
-        //TODO need to add logic that if the weapon is on the map it shows an icon and can be picked up, if equipped then it doesn't display any graphics
-        EntityWeapons = ig.Entity.extend({
-            automatic:false,
-            recoil:1,
-            maxPool:-1,
-            distance:-1,
-            parentEntity:null,
-            kill:function ()
-            {
-                this.parent();
-                //TODO this should also check that it is the active weapon?
-                if (this.parentEntity && this.parentEntity.removeWeaponFromPool)
-                    this.parentEntity.removeWeaponFromPool();
-            },
-            outOfBounds:function ()
-            {
-                this.kill();
-            }
-        })
-
-        EntityBasePlayer.inject({
-            weapon: 0,
-            activeWeapon: "none",
-            shotPressed: false,
-            fireDelay: null,
-            fireRate: 0,
-            maxPool: 2,
-            update: function()
-            {
-
-                if(this.shotPressed)
-                {
-                    if( this.fireDelay.delta() > this.fireRate ) {
-                        this.fireWeapon();
-                        this.fireDelay.reset();
-                    }
-                }
-
-                this.parent();
-
-            },
-            fireWeapon: function(){
-
-                if(this.activeWeapon == "none")
-                    return;
-
-                if(this.maxPool == -1 || this.pool < this.maxPool )
-                {
-                    //console.log("Pool", this.pool, this.pool < this.maxPool)
-                    var entity = ig.game.spawnEntity( this.activeWeapon, this.pos.x, this.pos.y, {flip:this.flip, parentEntity: this} );
-                    this.addWeaponToPool();
-                    this.maxPool = entity.maxPool;
-                    this.shotPressed = entity.automatic;
-
-                    this.fireRate = entity.automatic ? entity.fireRate : 0;
-
-                    var accel = this.standing ? this.accelGround : this.accelAir;
-                    if( !this.flip ) {
-                        this.accel.x = -accel * entity.recoil;
-                    }else {
-                        this.accel.x = accel * entity.recoil;
-                    }
-                    this.fireDelay.reset();
-                }
-            },
-            fireWeaponRelease: function()
-            {
-                this.shotPressed = false;
-            },
-            addWeaponToPool: function()
-            {
-                this.pool ++;
-            },
-            removeWeaponFromPool: function()
-            {
-                this.pool --;
-                if(this.pool < 0) this.pool = 0;
-            },
-            clearWeaponPool:function()
-            {
-                this.pool = 0;
-                this.maxPool = -1;
-            }
-
-        })
-
-        EntityBullet = EntityWeapons.extend({
+        EntityBullet = EntityBaseWeapons.extend({
             size:{x:5, y:3},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/bullet.png', 5, 3),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/bullet.png', 5, 3),
             maxVel:{x:200, y:0},
             type:ig.Entity.TYPE.NONE,
             checkAgainst:ig.Entity.TYPE.BOTH,
@@ -135,9 +38,9 @@ ig.module(
             }
         });
 
-        EntityShotgunShell = EntityWeapons.extend({
+        EntityShotgunShell = EntityBaseWeapons.extend({
             size:{x:5, y:3},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/bullet.png', 5, 3),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/bullet.png', 5, 3),
             maxVel:{x:200, y:0},
             type:ig.Entity.TYPE.NONE,
             checkAgainst:ig.Entity.TYPE.BOTH,
@@ -178,9 +81,9 @@ ig.module(
             }
         });
 
-        EntityMachineGun = EntityWeapons.extend({
+        EntityMachineGun = EntityBaseWeapons.extend({
             size:{x:5, y:3},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/bullet.png', 5, 3),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/bullet.png', 5, 3),
             maxVel:{x:300, y:0},
             type:ig.Entity.TYPE.NONE,
             checkAgainst:ig.Entity.TYPE.BOTH,
@@ -212,10 +115,10 @@ ig.module(
             }
         });
 
-        EntityGrenade = EntityWeapons.extend({
+        EntityGrenade = EntityBaseWeapons.extend({
             size:{x:4, y:4},
             offset:{x:2, y:2},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/grenade.png', 8, 8),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/grenade.png', 8, 8),
             type:ig.Entity.TYPE.A,
             checkAgainst:ig.Entity.TYPE.BOTH,
             collides:ig.Entity.COLLIDES.ACTIVE,
@@ -291,13 +194,13 @@ ig.module(
             checkAgainst:ig.Entity.TYPE.B,
             collides:ig.Entity.COLLIDES.LITE,
             baseVelocity:{x:4, y:10},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/explosion.png', 1, 1)
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/explosion.png', 1, 1)
         });
 
-        EntityMine = EntityWeapons.extend({
+        EntityMine = EntityBaseWeapons.extend({
             size:{x:6, y:5},
             offset:{x:0, y:0},
-            animSheet:new ig.AnimationSheet('media/bootstrap/images/mine.png', 6, 5),
+            animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/mine.png', 6, 5),
             type:ig.Entity.TYPE.A,
             checkAgainst:ig.Entity.TYPE.B,
             collides:ig.Entity.COLLIDES.ACTIVE,
@@ -349,8 +252,5 @@ ig.module(
                 this.mineExplosionSFX.play();
             }
         });
-
-        //TODO Inject equip and fire logic into player class
-
 
     });

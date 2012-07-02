@@ -49,7 +49,7 @@ ig.module(
             },
 
 
-            generateMiniMap:function (context, map, id) {
+            generateMiniMap:function (context, map) {
                 var s = ig.system.scale; // we'll need this a lot
 
                 // resize the tileset, so that one tile is 's' pixels wide and high
@@ -97,28 +97,34 @@ ig.module(
 
 
         ig.Game.inject({
-            showMiniMap:false,
-            miniMapInstance:new MiniMap(),
+            showMiniMap:true,
+            miniMapInstance: new MiniMap(), //TODO need a way to set the scale of the mini-map
             miniMapHighlightColor:'#f00',
             miniMapView:{x:0, y:0},
+            miniMapViewPort: {x:0, y:0},
+            miniMapPosition: {x:10, y:10},
             loadLevel:function (data) {
                 this.parent(data);
                 this.miniMapInstance.load(this);
 
                 var map = this.backgroundMaps[0];
                 var s = ig.system.scale;
-                miniMapViewPort = {x:((ig.system.width / map.tilesize) * s - 2), y:((ig.system.height / map.tilesize) * s - 2)};
+                this.miniMapViewPort = {x:((ig.system.width / map.tilesize) * s - 2), y:((ig.system.height / map.tilesize) * s - 2)};
             },
             draw:function () {
                 this.parent();
-
+                this.onDrawMiniMap();
+            },
+            onDrawMiniMap: function()
+            {
                 if (this.showMiniMap && this.miniMapInstance.mapCanvas && this.backgroundMaps) {
+
                     var ctx = ig.system.context;
                     // Get scale
                     var s = ig.system.scale;
 
                     // Draw Map
-                    ctx.drawImage(this.miniMapInstance.mapCanvas, 0, 0);
+                    ctx.drawImage(this.miniMapInstance.mapCanvas, this.miniMapPosition.x, this.miniMapPosition.y);
 
                     // Get reference to map
                     var map = this.backgroundMaps[0];
@@ -129,7 +135,7 @@ ig.module(
 
                     // Draw box around visible area
                     ctx.strokeStyle = this.miniMapHighlightColor;
-                    ctx.strokeRect(x * s, y * s, miniMapViewPort.x, miniMapViewPort.y);
+                    ctx.strokeRect(x * s + this.miniMapPosition.x, y * s + this.miniMapPosition.y, this.miniMapViewPort.x, this.miniMapViewPort.y);
 
                 }
             }

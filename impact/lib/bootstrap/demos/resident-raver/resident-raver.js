@@ -30,7 +30,6 @@ ig.module(
         MyGame.inject({
             /*lightMask: new ig.Image('media/bootstrap/demos/jetroid/images/lighting.png'), *///TODO need to move this into the specific game
             exitedLevel: false,
-            showMiniMap: false,
             gravity:360,
             currentLevelName:"dorms",
             levelCounter:0,
@@ -131,16 +130,16 @@ ig.module(
             onPause: function(){
                 this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
                 this.parent();
-                this.showMiniMap = false;
-            },
-            onResume: function(){
-                this.parent();
-                this.showMiniMap = true;
             },
             showDeathMessage: function()
             {
                 // Show the game over menu
                 this.showMenu(new StatMenu("Game Over!"));
+                this.parent();
+            },
+            onDrawMiniMap: function()
+            {
+                //Don't need the mini-map in this game
                 this.parent();
             }
         })
