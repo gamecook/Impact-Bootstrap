@@ -43,24 +43,35 @@ ig.module(
             fireDelay: null,
             fireRate: 0,
             maxPool: 2,
-            update: function()
+            /*update: function()
             {
 
-                if(this.shotPressed)
+                *//*if(this.shotPressed)
                 {
                     if( this.fireDelay.delta() > this.fireRate ) {
-                        this.fireWeapon();
+                        //this.fireWeapon();
                         this.fireDelay.reset();
                     }
-                }
+                }*//*
 
                 this.parent();
 
-            },
-            fireWeapon: function(){
+            },*/
+            onFire: function(){
 
                 if(this.activeWeapon == "none")
                     return;
+
+                this.fireWeapon();
+                /*if(this.shotPressed)
+                {
+                    if( this.fireDelay.delta() > this.fireRate ) {
+
+                        this.fireDelay.reset();
+                    }
+                }*/
+            },
+            fireWeapon: function(){
 
                 if(this.maxPool == -1 || this.pool < this.maxPool )
                 {
@@ -72,12 +83,14 @@ ig.module(
 
                     this.fireRate = entity.automatic ? entity.fireRate : 0;
 
+                    //TODO bug where this isn't reapplied if the weapon is automatic
                     var accel = this.standing ? this.accelGround : this.accelAir;
                     if( !this.flip ) {
                         this.accel.x = -accel * entity.recoil;
                     }else {
                         this.accel.x = accel * entity.recoil;
                     }
+
                     this.fireDelay.reset();
                 }
             },

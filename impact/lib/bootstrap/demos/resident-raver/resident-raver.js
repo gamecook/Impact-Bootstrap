@@ -48,8 +48,8 @@ ig.module(
             {
                 //console.log("Configure Camera");
                 this.camera.debug = false;
-                this.camera.trap.size.x = 224 * ig.system.scale;
-                this.camera.trap.size.y = ig.system.height / 3;
+                this.camera.trap.size.x = Math.round(224 * ig.system.scale);
+                this.camera.trap.size.y = Math.round(ig.system.height / 3);
                 //this.camera.offset.x = 0;
                 var cameraMinY = 0;//this.showStats ? -16 : 0;
                 this.camera.min.x = 8;
@@ -57,6 +57,8 @@ ig.module(
                 //TODO need a way to reset this
                 this.camera.min.y = this.cameraOffsetY;
                 this.camera.max.y = this.collisionMap.height * this.collisionMap.tilesize - ig.system.height;
+
+                console.log("camera", this.camera.pos, this.camera.offset);
             },
             loadLevel:function (data)
             {
@@ -111,9 +113,6 @@ ig.module(
                     this.player.equip(defaultWeapon, true);
                 }
 
-                if (this.defaultInstructions != "none")
-                    this.displayCaption(this.defaultInstructions, 7);
-
             },
             exitLevel: function (data) {
                 //Kills player and sets exitedLevel value to true
@@ -130,16 +129,13 @@ ig.module(
             onPause: function(){
                 this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
                 this.parent();
+
+                console.log("camera", this.camera.pos, this.camera.offset);
             },
             showDeathMessage: function()
             {
                 // Show the game over menu
                 this.showMenu(new StatMenu("Game Over!"));
-                this.parent();
-            },
-            onDrawMiniMap: function()
-            {
-                //Don't need the mini-map in this game
                 this.parent();
             }
         })

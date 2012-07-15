@@ -110,7 +110,8 @@ ig.module(
             shootPressed:function ()
             {
                 //ig.game.shakeScreen();
-                this.fireWeapon();
+                //this.fireWeapon();
+                this.onFire();
             },
             shootReleased:function ()
             {

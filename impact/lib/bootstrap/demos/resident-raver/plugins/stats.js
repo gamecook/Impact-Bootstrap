@@ -39,6 +39,12 @@ ig.module(
                 var x = ig.system.width * .5;
                 var y = ig.system.height * .5;
                 this.menuFont.draw(this.title, x, y - 30, ig.Font.ALIGN.CENTER);
+
+                // Show quit message
+                //if(!ig.game.isGameOver)
+                this.menuFont.draw("~ Press 'Q' To Quit At Any Time ~", x, y - 45, ig.Font.ALIGN.CENTER); //TODO need to have this support touch controls and customization
+
+
                 //TODO calculate score
                 var stats = ig.game.stats;
                 console.log("Display stats", stats);
@@ -56,7 +62,7 @@ ig.module(
                         var name =  displayStats[i];
                         //TODO need to come up with a better way to handle the score but this is a good hack for now
                         var points =  stats[displayStats[i]];//totalItems * this.collectionKeys[i].value * (i+1);
-                        this.menuFont.draw(name+": "+ points, x, y+(10 * (i+1))+10, ig.Font.ALIGN.CENTER);
+                        this.menuFont.draw(name.capitalize()+": "+ points, x, y+(10 * (i+1))+10, ig.Font.ALIGN.CENTER);
                     }
 
                     //this.menuFont.draw("Score : ", x, y+(10 * (i+2))+10, ig.Font.ALIGN.CENTER);
@@ -76,9 +82,18 @@ ig.module(
             onPause: function (value)
             {
                 // Update level time before displaying pause screen
+                this.updateStats();
+                this.parent(value);
+            },
+            updateStats: function()
+            {
                 this.stats.time = Math.round(this.levelTimer.delta());
                 this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
-                this.parent(value);
+            },
+            onPlayerDeath: function()
+            {
+                this.updateStats();
+                this.parent();
             }
 
 

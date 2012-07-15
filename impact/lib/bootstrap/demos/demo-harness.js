@@ -76,11 +76,7 @@ ig.module(
         {
 
             // Reset Default Values
-            this.defaultCaption = ig.config.text.defaultCaption;
-            this.showHUD = true;
-            var defaultWeapon = 1; //TODO need to think of a better way to handle this
-
-            var cameraMinY = this.showHUD ? this.hudOffset : 0;
+            //this.defaultCaption = ig.config.text.defaultCaption; //TODO should this be left in here?
 
             //this.stats = {time:0, deaths:0};
             this.parent(data);
@@ -90,8 +86,18 @@ ig.module(
 
             this.levelTimer.reset();
 
-            if (this.defaultCaption != "none")
-                this.displayCaption(this.defaultCaption, 7); //TODO need to may the delay configurable
+            //TODO this could be cleaned up a little better
+            if(this.defaultInstructions)
+            {
+                switch(this.defaultInstructions.toLowerCase())
+                {
+                    case "none":case "":
+                    //do nothing
+                    break;
+                    default:
+                        this.displayCaption(this.defaultInstructions, 7); //TODO need to make this configurable
+                }
+            }
 
         },
         update:function ()
@@ -187,7 +193,7 @@ ig.module(
         drawScreen: function()
         {
             //TODO this should be coming from the config
-            var text = !ig.ua.mobile ? 'Press Spacebar To Start!' : 'Press Anywhere To Start!'
+            var text = !ig.ua.mobile ? 'Press Spacebar To Start!' : 'Press Anywhere To Start!' //TODO need to have this configured better for touch controls
 
             this.instructText.draw(text, ig.system.width * .5, ig.system.height * .5, ig.Font.ALIGN.CENTER);
         }

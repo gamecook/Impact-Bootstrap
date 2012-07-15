@@ -29,15 +29,14 @@ ig.module(
                     displayHiScore = true;
                 }
 
-                console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
+                //console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
 
                 // Save Stats
                 this.storage.set("totalScore", this.storage.getInt("totalScore") + this.stats.score);
 
-
                 this.storage.set("totalKills", this.storage.getInt("totalKills") + this.stats.kills);
 
-                console.log("set totalKills", this.stats.kills, this.storage.getInt("totalKills"));
+                //console.log("set totalKills", this.stats.kills, this.storage.getInt("totalKills"));
 
                 this.storage.set("totalDoors", this.storage.getInt("totalDoors") + this.stats.doors);
             }
