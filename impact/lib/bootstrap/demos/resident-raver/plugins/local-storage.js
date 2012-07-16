@@ -22,6 +22,9 @@ ig.module(
                 //this.parent();
 
                 var levelScoreID = this.currentLevelName+"Score";
+
+                console.log("levelScoreID", levelScoreID);
+
                 var hiScore = this.storage.getInt(levelScoreID) ? this.storage.getInt(levelScoreID) : 0;
                 if(this.stats.score >  hiScore)
                 {
@@ -29,7 +32,7 @@ ig.module(
                     displayHiScore = true;
                 }
 
-                //console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
+                console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
 
                 // Save Stats
                 this.storage.set("totalScore", this.storage.getInt("totalScore") + this.stats.score);

@@ -3,7 +3,8 @@ ig.module(
 )
     .requires(
     'bootstrap.plugins.impact.caption',
-    'bootstrap.demos.resident-raver.entities.door'
+    'bootstrap.demos.resident-raver.entities.door',
+    'bootstrap.demos.resident-raver.plugins.local-storage'
 )
     .defines(function(){
 
@@ -18,7 +19,7 @@ ig.module(
                 //TODO depends on local storage
 
                 // Setup Local Storage
-                //this.storage = this.storage = new ig.Storage();
+                //ig.game.storage = ig.game.storage = new ig.Storage();
 
                 if (this.level) {
                     this.levelName = this.level.replace(/^(Level)?(\w)(\w*)/, function(m, l, a, b) {
@@ -26,7 +27,7 @@ ig.module(
                     });
 
                     var levelScoreID = this.levelName+"Score"
-                    this.hiScore = 0//this.storage.getInt(levelScoreID) ? this.storage.getInt(levelScoreID) : 0;
+                    this.hiScore = ig.game.storage.getInt(levelScoreID) ? ig.game.storage.getInt(levelScoreID) : 0;
                 }
             },
             onOpen: function(){

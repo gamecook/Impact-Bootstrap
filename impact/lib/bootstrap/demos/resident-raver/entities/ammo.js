@@ -7,6 +7,11 @@ ig.module(
 )
     .defines(function ()
     {
+        EntityAmmo = EntityBaseWeapons.extend({
+        _wmIgnore: true
+            //Empty class so Weltmeister doesn't throw an error
+        })
+
         EntityBullet = EntityBaseWeapons.extend({
             size:{x:5, y:3},
             animSheet:new ig.AnimationSheet('media/bootstrap/demos/resident-raver/images/bullet.png', 5, 3),

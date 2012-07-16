@@ -43,35 +43,23 @@ ig.module(
             fireDelay: null,
             fireRate: 0,
             maxPool: 2,
-            /*update: function()
+
+            onVisibleUpdate: function()
             {
-
-                *//*if(this.shotPressed)
-                {
-                    if( this.fireDelay.delta() > this.fireRate ) {
-                        //this.fireWeapon();
-                        this.fireDelay.reset();
-                    }
-                }*//*
-
                 this.parent();
 
-            },*/
-            onFire: function(){
+                if(this.shotPressed)
+                {
+                    if( this.fireDelay.delta() > this.fireRate ) {
+                        this.fireWeapon();
+                        this.fireDelay.reset();
+                    }
+                }
+            },
+            fireWeapon: function(){
 
                 if(this.activeWeapon == "none")
                     return;
-
-                this.fireWeapon();
-                /*if(this.shotPressed)
-                {
-                    if( this.fireDelay.delta() > this.fireRate ) {
-
-                        this.fireDelay.reset();
-                    }
-                }*/
-            },
-            fireWeapon: function(){
 
                 if(this.maxPool == -1 || this.pool < this.maxPool )
                 {

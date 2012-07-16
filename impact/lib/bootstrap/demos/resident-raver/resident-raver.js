@@ -68,10 +68,11 @@ ig.module(
                 // Reset Default Values
                 this.defaultInstructions = "none";
                 this.showStats = true;
-                var defaultWeapon = 1;
+                var defaultWeapon = 0;
 
                 this.currentLevel = data;
 
+                //TODO I need to connect this up correctly
                 var cameraMinY = 0;//this.showStats ? -16 : 0;
 
                 this.parent(data);
@@ -112,6 +113,10 @@ ig.module(
                     //defaultWeapon = 5;
                     this.player.equip(defaultWeapon, true);
                 }
+
+                // By default this is set to "none"
+                if(this.defaultInstructions != "none")
+                    this.displayCaption(this.defaultInstructions, 7);
 
             },
             exitLevel: function (data) {

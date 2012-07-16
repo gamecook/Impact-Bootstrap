@@ -7,7 +7,8 @@ ig.module(
     'bootstrap.plugins.impact.menu',
     'plugins.impact-storage.impact-storage',
     'bootstrap.entities.base-monster',
-    'bootstrap.demos.resident-raver.entities.door'
+    'bootstrap.demos.resident-raver.entities.door',
+    'bootstrap.demos.resident-raver.entities.player'
 
 )
 
@@ -47,7 +48,6 @@ ig.module(
 
                 //TODO calculate score
                 var stats = ig.game.stats;
-                console.log("Display stats", stats);
                 if(stats)
                 {
                     var i;
@@ -104,7 +104,7 @@ ig.module(
             receiveDamage: function(value, from)
             {
                 this.parent(value, from);
-                if(this.health <= 0)
+                if(this.health <= 0 && from instanceof EntityBaseWeapons)
                 {
                     ig.game.stats.kills ++;
                     console.log("Add to kills", ig.game.stats.kills)
@@ -119,7 +119,7 @@ ig.module(
             close: function()
             {
                 ig.game.stats.doors ++;
-                console.log("Add to doors", ig.game.stats.doors)
+                //console.log("Add to doors", ig.game.stats.doors)
                 this.parent();
             }
 

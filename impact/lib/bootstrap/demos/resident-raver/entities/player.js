@@ -61,20 +61,6 @@ ig.module(
                 }
                 this.currentAnim.flip.x = this.flip;
             },
-            update: function()
-            {
-
-                if(this.shotPressed)
-                {
-                    if( this.fireDelay.delta() > this.fireRate ) {
-                        this.fireWeapon();
-                        this.fireDelay.reset();
-                    }
-                }
-
-                this.parent();
-
-            },
             draw: function()
             {
                 this.parent();
@@ -109,14 +95,11 @@ ig.module(
             },
             shootPressed:function ()
             {
-                //ig.game.shakeScreen();
-                //this.fireWeapon();
-                this.onFire();
+                this.fireWeapon();
             },
             shootReleased:function ()
             {
                 this.fireWeaponRelease();
-                this.shotPressed = false;
             },
             addPowerUp: function(property, value, message)
             {
