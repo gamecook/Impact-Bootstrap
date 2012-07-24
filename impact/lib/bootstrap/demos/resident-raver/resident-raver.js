@@ -58,7 +58,7 @@ ig.module(
                 this.camera.min.y = this.cameraOffsetY;
                 this.camera.max.y = this.collisionMap.height * this.collisionMap.tilesize - ig.system.height;
 
-                console.log("camera", this.camera.pos, this.camera.offset);
+                //console.log("camera", this.camera.pos, this.camera.offset);
             },
             loadLevel:function (data)
             {
@@ -135,7 +135,7 @@ ig.module(
                 this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
                 this.parent();
 
-                console.log("camera", this.camera.pos, this.camera.offset);
+                //console.log("camera", this.camera.pos, this.camera.offset);
             },
             showDeathMessage: function()
             {

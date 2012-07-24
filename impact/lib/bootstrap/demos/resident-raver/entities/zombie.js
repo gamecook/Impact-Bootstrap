@@ -33,6 +33,12 @@ ig.module(
                 if(this.spawner)
                     this.spawner.outOfBounds();
                 this.fallOutOfBoundsSFX.play();
+            },
+            kill:function (noAnimation)
+            {
+                this.parent(noAnimation);
+                this.spawner.removeItem();
             }
+
         })
     })

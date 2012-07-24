@@ -36,7 +36,7 @@ ig.module(
 
         ig.Game.inject({
             exitLevel: function (data) {
-                console.log("exit level");
+                //console.log("exit level");
             }
         })
 

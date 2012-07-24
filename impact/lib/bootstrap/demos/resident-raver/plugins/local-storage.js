@@ -23,7 +23,7 @@ ig.module(
 
                 var levelScoreID = this.currentLevelName+"Score";
 
-                console.log("levelScoreID", levelScoreID);
+                //console.log("levelScoreID", levelScoreID);
 
                 var hiScore = this.storage.getInt(levelScoreID) ? this.storage.getInt(levelScoreID) : 0;
                 if(this.stats.score >  hiScore)
@@ -32,7 +32,7 @@ ig.module(
                     displayHiScore = true;
                 }
 
-                console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
+                //console.log("hi-score", hiScore, this.stats.score, this.storage.getInt(levelScoreID));
 
                 // Save Stats
                 this.storage.set("totalScore", this.storage.getInt("totalScore") + this.stats.score);
@@ -53,14 +53,14 @@ ig.module(
 
 
                 this.storage = new ig.Storage();
-                console.log("New storage", this.storage, this.storage.isSet("totalScore"), this.storage.get("totalScore"));
+                //console.log("New storage", this.storage, this.storage.isSet("totalScore"), this.storage.get("totalScore"));
                 //this.resetLocalStorage(); // <- Use this for testing
                 // Setup default game values for first time install
                 this.setupLocalStorage();
             },
             setupLocalStorage:function () {
 
-                console.log("Setup local storage", this.storage);
+                //console.log("Setup local storage", this.storage);
 
                 if (!this.storage.isSet("level")) {
                     this.storage.set("level", 1);
@@ -91,11 +91,11 @@ ig.module(
                         this.tracking.trackEvent("game", "upgrade", oldVer + "->" + version, null);*/
                 }
 
-                console.log("totalKills", this.storage.get("totalKills"),"totalDoors", this.storage.get("totalDoors") )
+                //console.log("totalKills", this.storage.get("totalKills"),"totalDoors", this.storage.get("totalDoors") )
             },
             resetLocalStorage:function () {
                 this.storage.clear();
-            },
+            }
         })
 
     }
