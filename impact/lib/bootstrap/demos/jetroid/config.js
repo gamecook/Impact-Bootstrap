@@ -10,7 +10,7 @@ ig.module(
                 debug:true,
                 version:'@version@',
                 trackingID:'@tracking@',
-                backgroundMusic:'media/sounds/theme.*',
+                backgroundMusic:'media/bootstrap/sounds/theme.*',
                 backgroundMusicVolume:.5,
                 soundVolume:.5,
                 killAllSounds:true, /* use this for debugging if you don't want to hear sound when testing */
@@ -63,24 +63,24 @@ ig.module(
             },
             //TODO fix spelling of file names
             sounds:{
-                death:"media/sounds/Death.*",
-                elevatorBeep:"media/sounds/ElvatorBeep.*",
-                outOfAmmo:"media/sounds/Empty.*",
-                grenadeBounce:"media/sounds/GranedeBounce.*",
-                grenadeExplosion:"media/sounds/GrenedeExplosion.*",
-                gunFire:"media/sounds/GunFire.*",
-                hitHard:"media/sounds/HitHard.*",
-                hitSoft:"media/sounds/HitSoft.*",
-                jump:"media/sounds/Jump.*",
-                machineGunFire:"media/sounds/MachineGunFire.*",
-                mineBeep:"media/sounds/MineBeep.*",
-                mineExplosion:"media/sounds/MineExplosion.*",
-                openDoor:"media/sounds/OpenDoor.*",
-                fallToDeath:"media/sounds/PlayerMonserFall.*",
-                powerUp:"media/sounds/Powerup.*",
-                powerUp2:"media/sounds/Powerup2.*",
-                shotgunFire:"media/sounds/ShotgunFire.*",
-                startGame:"media/sounds/StartGame.*"
+                death:"media/bootstrap/sounds/Death.*",
+                elevatorBeep:"media/bootstrap/sounds/ElvatorBeep.*",
+                outOfAmmo:"media/bootstrap/sounds/Empty.*",
+                grenadeBounce:"media/bootstrap/sounds/GrenadeBounce.*",
+                grenadeExplosion:"media/bootstrap/sounds/GrenadeExplosion.*",
+                gunFire:"media/bootstrap/sounds/GunFire.*",
+                hitHard:"media/bootstrap/sounds/HitHard.*",
+                hitSoft:"media/bootstrap/sounds/HitSoft.*",
+                jump:"media/bootstrap/sounds/Jump.*",
+                machineGunFire:"media/bootstrap/sounds/MachineGunFire.*",
+                mineBeep:"media/bootstrap/sounds/MineBeep.*",
+                mineExplosion:"media/bootstrap/sounds/MineExplosion.*",
+                openDoor:"media/bootstrap/sounds/OpenDoor.*",
+                fallToDeath:"media/bootstrap/sounds/PlayerMonsterFall.*",
+                powerUp:"media/bootstrap/sounds/Powerup.*",
+                powerUp2:"media/bootstrap/sounds/Powerup2.*",
+                shotgunFire:"media/bootstrap/sounds/ShotgunFire.*",
+                startGame:"media/bootstrap/sounds/StartGame.*"
             }
             //TODO maybe add plugins in here?
 

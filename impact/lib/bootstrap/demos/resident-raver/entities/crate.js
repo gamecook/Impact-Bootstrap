@@ -18,8 +18,8 @@ ig.module(
             checkAgainst:ig.Entity.TYPE.B,
             collides:ig.Entity.COLLIDES.ACTIVE,
             life:20,
-            hitHardSFX: new ig.Sound( 'media/sounds/HitHard.*' ),
-            deathSFX: new ig.Sound( 'media/sounds/Death.*' ),
+            hitHardSFX: new ig.Sound( 'media/bootstrap/sounds/HitHard.*' ),
+            deathSFX: new ig.Sound( 'media/bootstrap/sounds/Death.*' ),
             init: function(x, y, settings)
             {
                 this.parent(x, y, settings);

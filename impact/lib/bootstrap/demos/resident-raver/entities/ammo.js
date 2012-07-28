@@ -134,8 +134,8 @@ ig.module(
             recoil:0,
             blastRadius:30,
             maxPool:1,
-            granadeBounceSFX:new ig.Sound('media/bootstrap/sounds/GranedeBounce.*'),
-            granadeExplodeSFX:new ig.Sound('media/bootstrap/sounds/GrenedeExplosion.*'),
+            granadeBounceSFX:new ig.Sound('media/bootstrap/sounds/GrenadeBounce.*'),
+            granadeExplodeSFX:new ig.Sound('media/bootstrap/sounds/GrenadeExplosion.*'),
             init:function (x, y, settings)
             {
                 this.parent(x + (settings.flip ? -4 : 7), y, settings);
