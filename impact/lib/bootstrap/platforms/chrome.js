@@ -11,21 +11,22 @@ ig.module(
     'bootstrap.platforms.chrome'
 )
     .requires(
-    'bootstrap.bootstrap-config'
 )
 
     .defines(function ()
     {
-
-        //TODO do we need any chrome specific logic? I can put in hooks for in app purchases?
 
         // Remove touch controls
         var controls = document.getElementById("controls");
         if (controls)
             document.getElementById('game-container').removeChild(controls);
 
-        if (ig.config.system.killAllSounds)
-            ig.Sound.enabled = false;
+        var sizes = {
+            iPhone:{width:240, height:160, scale:2},
+            android:{width:240, height:160, scale:2},
+            iPad:{width:240, height:160, scale:4},
+            default:{width:240, height:160, scale:4}
+        };
 
         var sizes = ig.config.system.devices;
 

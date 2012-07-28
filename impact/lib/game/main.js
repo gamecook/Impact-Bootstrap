@@ -9,7 +9,7 @@ ig.module(
 )
     .requires(
     'plugins.impact-splash-loader.impact-splash-loader',
-    /* build game */ 'bootstrap.demos.resident-raver.resident-raver', /* end build game */
+    /* build game */ 'game.resident-raver.resident-raver', /* end build game */
     /* build plugin */ 'bootstrap.platforms.web', /* end build plugin */
     /* build debug */ 'impact.debug.debug' /* end build debug */
 )

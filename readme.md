@@ -173,6 +173,14 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * StartGame.wav
 
 ##Change Log
+**v0.5.0-alpha**
+
+**This is a major update due to the new build script and moving the demo games out of the bootstrap **
+
+* Rebuilt the build script to automate deployment on multiple platforms. Right now it fully supports web, chrome market and Win8.
+* Moved demo games out of `bootstrap/demos` and into the game folder.
+* You can now automatically generate a game via the ant build. Simply replace the name of the game in the properties file. *( I'll be adding documentation on this very soon. )*
+
 **v0.4.0-alpha**
 
 **This is a major update due to the number of classes that have been refactored **

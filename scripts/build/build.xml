@@ -8,16 +8,7 @@
         <!-- Clean -->
         <antcall target="web-build"/>
         <antcall target="win8-build"/>
-
-
-        <!--<antcall target="bake"/>-->
-        <!--<antcall target="web-build"/>
-        <antcall target="ios-build"/>
-        <antcall target="win8-build"/>
         <antcall target="chrome-build"/>
-        <antcall target="mozilla-build"/>
-        <antcall target="post-build-cleanup"/>-->
-        <!-- Bake -->
     </target>
 
     <!-- Delete deploy directory and create a new one -->
@@ -26,7 +17,7 @@
         <mkdir dir="${tmp.dir}"/>
     </target>
 
-    <macrodef name="bake-game">
+    <macrodef name="preprocess-game">
         <attribute name="game" />
         <attribute name="platform" />
         <attribute name="output" default="${tmp.dir}"/>
@@ -40,16 +31,23 @@
                 <fileset dir="${impact.dir}">
                     <exclude name="weltmeister.html"/>
                     <exclude name="**/lib/weltmeister/**"/>
+                    <exclude name="**/lib/game/**"/>
                     <exclude name="**/tools/*"/>
                 </fileset>
             </sync>
 
+            <sync todir="@{output}/lib/game/@{game}">
+                <fileset dir="${impact.dir}/lib/game/@{game}">
+                </fileset>
+            </sync>
+
+            <copy file="${impact.dir}/lib/game/main.js" todir="@{output}/lib/game"/>
             <!-- Second, regex out value we need for the platform -->
 
             <!-- replace game module -->
             <replaceregexp file="@{output}/lib/game/main.js"
                            match="\/\* build game \*\/(.*?)\/\* end build game \*\/"
-                           replace="'@{game}'," flags="gs">
+                           replace="'game.@{game}.@{game}'," flags="gs">
             </replaceregexp>
 
             <!-- replace platform plugin -->
@@ -76,9 +74,14 @@
                            replace="&lt;title&gt;${project.name}&lt;/title&gt;" flags="gs">
             </replaceregexp>
 
-            <bake src="@{output}"/>
+            <!-- copy artwork into correct location -->
 
-            <delete dir="@{output}/lib"/>
+            <delete dir="@{output}/media/games"/>
+
+            <sync todir="@{output}/media/games/@{game}">
+                <fileset dir="${impact.dir}/media/games/@{game}">
+                </fileset>
+            </sync>
 
         </sequential>
 
@@ -108,7 +111,13 @@
 
     <target name="web-build">
 
-        <bake-game game="${game.module}" platform="${web.platform}" output="${tmp.dir}"/>
+        <delete dir="${web.dir}"/>
+
+        <preprocess-game game="${game.module}" platform="${web.platform}" output="${tmp.dir}"/>
+
+        <bake src="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>
 
         <sync todir="${web.dir}">
             <fileset dir="${tmp.dir}">
@@ -122,9 +131,26 @@
 
     <target name="win8-build">
 
-        <bake-game game="${game.module}" platform="${win8.platform}" output="${tmp.dir}"/>
+        <delete dir="${win8.dir}"/>
+
+        <preprocess-game game="${game.module}" platform="${win8.platform}" output="${tmp.dir}"/>
+
+        <!-- todo, need a way to wrap ig.main call with condition to start when win8 app is ready -->
+        <!-- wrap game constructor -->
+        <replaceregexp file="${tmp.dir}/lib/game/main.js"
+                       match="ig.main\((.*?)\);"
+                       replace="ig.startNewGame = function () {\0};" flags="gs">
+        </replaceregexp>
+
+        <!--<bake src="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>-->
 
         <delete file="${tmp.dir}/index.html"/>
+        <delete file="${tmp.dir}/lib/bootstrap/weltmeister-bootstrap.js"/>
+        <delete dir="${tmp.dir}/lib/bootstrap/plugins/weltmeister"/>
+
+        <!-- TODO need to remove other platform plugins -->
 
         <sync todir="${win8.dir}">
             <fileset dir="${tmp.dir}">
@@ -136,62 +162,46 @@
 
     </target>
 
-
-
-
     <target name="chrome-build">
 
-        <!-- Create chrome market app -->
-        <sync todir="${chrome.dir}/tmp">
-            <fileset dir="${web.dir}">
+        <delete dir="${chrome.dir}"/>
 
-            </fileset>
-        </sync>
+        <preprocess-game game="${game.module}" platform="${chrome.platform}" output="${tmp.dir}"/>
 
-        <echo file="${chrome.dir}/tmp/manifest.json" append="false">
-            {
-            "name": "${project.name}",
-            "description": "${project.description}",
-            "version": "${project.version}",
-            "icons": {
-            "16": "images/icons/icon-16x16.png",
-            "48": "images/icons/icon-48x48.png",
-            "128": "images/icons/icon-128x128.png"
-            },
-            "app": {"launch": {
-            "local_path": "index.html"
-            }},
-            "homepage_url": "${project.url}"
-            }
-        </echo>
+        <bake src="${tmp.dir}"/>
 
-        <zip destfile="${chrome.dir}/${project.name}-${project.version}.zip" basedir="${chrome.dir}"/>
-        <delete dir="${chrome.dir}/tmp/"/>
+        <generate-manifest output="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>
+
+        <zip destfile="${chrome.dir}/${game.module}-${project.version}.zip" basedir="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}"/>
+
     </target>
 
-    <target name="mozilla-build">
-        <!-- Create Mozilla App -->
-        <sync todir="${mozilla.dir}">
-            <fileset dir="${web.dir}">
+    <macrodef name="generate-manifest">
+        <attribute name="output" />
+        <attribute name="file-name" default="manifest.json" />
 
-            </fileset>
-        </sync>
-
-        <echo file="${mozilla.dir}/manifest.json" append="false">
-            {
-            "name":"${project.name}",
-            "developer": {
-            "name":"${company.name}",
-            "url":"${company.site}"
-            },
-            "description":"${project.description}",
-            "icons":{
-            "16": "/images/icons/icon-16x16.png",
-            "48": "/images/icons/icon-48x48.png",
-            "128": "/images/icons/icon-128x128.png"
-            }
-            }
-        </echo>
-    </target>
+        <sequential>
+            <echo file="@{output}/@{file-name}" append="false">
+                {
+                "name": "${project.name}",
+                "description": "${project.description}",
+                "version": "${project.version}",
+                "icons": {
+                "16": "images/icons/icon-16x16.png",
+                "48": "images/icons/icon-48x48.png",
+                "128": "images/icons/icon-128x128.png"
+                },
+                "app": {"launch": {
+                "local_path": "index.html"
+                }},
+                "homepage_url": "${project.url}"
+                }
+            </echo>
+        </sequential>
+    </macrodef>
 
 </project>
