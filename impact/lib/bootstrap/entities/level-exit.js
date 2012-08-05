@@ -9,7 +9,7 @@
  */
 
 ig.module(
-    'bootstrap.entities.levelexit'
+    'bootstrap.entities.level-exit'
 )
     .requires(
     'impact.entity',

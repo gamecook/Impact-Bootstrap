@@ -44,15 +44,17 @@ ig.module(
             },
             onOpen: function(value)
             {
-                this.parent(value);
+
+
                 // Randomly pick a weapon
-                var wid = Math.floor(Math.random() * this.weapons) + 1;
-                this.target.equip(wid);
-
-
+                if(this.target)
+                    this.target.equip(Math.floor(Math.random() * this.weapons) + 1);
 
                 //TODO this is probably expensive, we can just reset it
                 this.doorDelayTimer = new ig.Timer();
+
+                // Moved this below the equip code to make sure it doesn't throw an error if no target exists
+                this.parent(value);
             },
             update: function()
             {

@@ -1,5 +1,5 @@
 ig.module(
-    'game.resident-raver.entities.level-exit'
+    'game.resident-raver.entities.level-select'
 )
     .requires(
     'bootstrap.plugins.impact.caption',
@@ -8,7 +8,7 @@ ig.module(
 )
     .defines(function(){
 
-        EntityLevelExit = EntityDoor.extend({
+        EntityLevelSelect = EntityDoor.extend({
             storage: null,
             levelName: "",
             hiScore: 0,
@@ -41,7 +41,7 @@ ig.module(
                 this.parent(other);
 
                 if(this.level)
-                    ig.game.displayCaption(this.level.capitalize()+" Hi-Score "+this.hiScore.toString().padString(6),.2);
+                    ig.game.displayCaption(this.level.capitalize()+" Hi-Score "+this.hiScore.toString().pad(6, "0"),.2);
 
             }
         });

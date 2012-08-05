@@ -133,7 +133,7 @@ Base entities are 'abstract classes' designed to allow you to extend them in you
 ####Ready-To-Use Entities
 The entities in the root of the Bootstrap entity directory can be used as is. These entities do have some dependencies on artwork in the media folder, but you can simply inject new properties into them if you need to resize or replace artwork. Here is a list of the ready-to-use entities:
 
-* **levelexit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
+* **level-exit.js** allows the player to exit a level. When the player enters this invisible entity it calls `exitLevel()` which is injected into the `ig.game` class allowing you to handle exiting to the next level. The is useful of showing an end of level screen or simply returning to beginning of the game or start/level picker screen.
 * **outofbounds.js** is an invisible area that calls an `outofbounds()` handler on any entity that collides with it. This method is automatically added to any entity that extends the base-actor class. It is useful for holes in floors or areas that should instantly kill an entity.
 *  **particle-emitter.js** handles spawning particles on an entity. Simply provide a target and the name of the particle entity you want to spawn and the emitter will handle managing pooling of each instance. There are several built in particles such as fire(`EntityFirerParticle`), snow(`EntitySnowParticle`) and water(`EntityWaterParticle`). *(I'll be adding in more particles and templates for the emitter to help simulate different effects)*
 * **spawner.js** - will spawn other entities based on a set time and has a built-in object pool. When an entity is created via the spawner, they will get a reference to the spawner instance in the settings object passed into the `init()` constructor. This allows spawned entities to call back to the spawner when destroyed in order to return to the pool.
@@ -180,6 +180,11 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 * Rebuilt the build script to automate deployment on multiple platforms. Right now it fully supports web, chrome market and Win8.
 * Moved demo games out of `bootstrap/demos` and into the game folder.
 * You can now automatically generate a game via the ant build. Simply replace the name of the game in the properties file. *( I'll be adding documentation on this very soon. )*
+* `level-exit.js` in ResidentRaver game has been renamed to `level-select.js` to avoid confusion with bootstrap entity of the same name.
+*  Cleaned up base-door to now use built in input callbacks instead of hardcoded call for ig.input.pressed('open'). Now you can auto-bind the open key to trigger a door.
+*  Modified the loop that looks for input binding to now take a set of filters to allow you to limit the player's movement. This is being used in the doors to only allow the input to be open and dissable everything else. *( This still needs more working and testing but is a good start. )*
+*  Replaced old padding prototype method `padString` to `pad`.
+*  Fixed more bugs in Resident Raver and refactored the door to work better.
 
 **v0.4.0-alpha**
 
@@ -194,7 +199,7 @@ Impact Bootstrap comes with a set of pre-generated sound effects, which you can 
 
 **v0.3.0-alpha**
 
-* Updated `levelexit.js` to now inject and call a new `exitLevel()` method on the `ig.game` class.
+* Updated `level-exit.js` to now inject and call a new `exitLevel()` method on the `ig.game` class.
 * Added more features to the Jetroid demo such as a stats screen to show during pause or when exiting a level, a new demo level, and added a way to exit a level to show off the new `exitlevel.js` class and monsters.
 * Added new `win8.js` plugin inside of the platform folder which adds support for deploying your game to Windows 8 as an HTML5 Metro app.
 * Fixed css for the buttons on the `index.html` to float instead of being hardcoded to a specific size.

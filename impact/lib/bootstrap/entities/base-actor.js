@@ -196,37 +196,7 @@ ig.module(
             repel:function (direction, force)
             {
 
-            }/*,
-            fireWeapon:function ()
-            {
-                //TODO need to flesh thsi out to support ammo and what not
-                if (this.activeWeapon == "none")
-                    return;
-
-                var entity = ig.game.spawnEntity(this.activeWeapon, this.pos.x, this.pos.y, {flip:this.flip});
-                //this.shootSFX.play();
-                this.shotPressed = entity.automatic;
-
-                this.fireRate = entity.automatic ? entity.fireRate : 0;
-
-                var accel = this.standing ? this.accelGround : this.accelAir;
-                if (!this.flip)
-                {
-                    this.accel.x = -accel * entity.recoil;
-                } else
-                {
-                    this.accel.x = accel * entity.recoil;
-                }
-                this.fireDelay.reset();
-
-                //TODO need to let each weapon have its own power drain
-                this.energy--;
-                *//*if(ig.game.stats.ammo < 1)
-                 {
-                 this.equip(0);
-                 this.emptySFX.play();
-                 }*//*
-            }*/
+            }
         });
 
     });

@@ -33,9 +33,6 @@ ig.module(
 
                 this.setupAnimation(this.weapon);
                 this.startPosition = {x:x,y:y};
-
-                this.energy = this.energyMax;
-                this.air = this.airMax;
             },
             setupAnimation: function(offset){
                 offset = offset * 10;

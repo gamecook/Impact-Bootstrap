@@ -46,12 +46,12 @@ EntityStats = ig.Entity.extend({
             var nextLevel = level + 1;
             var totalScore = this.storage.getInt("totalScore");
             var rewardsTotal = (nextLevel * (nextLevel + 1)) * 1000;
-            var totalKills = this.storage.get("totalKills")
-            var totalDoors = this.storage.get("totalDoors")
+            var totalKills = this.storage.get("totalKills");
+            var totalDoors = this.storage.get("totalDoors");
             this.text.length = 0;
-            this.text.push("Total -> Score: "+totalScore.toString().padString(7));
-            this.text.push("Kills: "+totalKills.toString().padString(6));
-            this.text.push("Doors: "+totalDoors.toString().padString(6));
+            this.text.push("Total -> Score: "+totalScore.toString().pad(7, "0"));
+            this.text.push("Kills: "+totalKills.toString().pad(6, "0"));
+            this.text.push("Doors: "+totalDoors.toString().pad(6, "0"));
         }
     },
 	draw: function(){

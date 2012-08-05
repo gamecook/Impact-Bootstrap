@@ -60,6 +60,7 @@ ig.module(
             close:function ()
             {
                 this.isClosing = true;
+                this.target = null;
             },
             onClose:function ()
             {
@@ -73,25 +74,18 @@ ig.module(
 
         EntityBasePlayer.inject({
             currentDoor:null,
-            update:function ()
+            /*update:function ()
             {
                 this.parent();
 
                 // Logic for entering doors
                 if (ig.input.pressed('open') && this.standing)
                 {
-                    if (this.currentDoor && this.visible)
-                    {
-                        this.openDoor();
-                    }
-                    else
-                    {
-                        this.exitDoor();
-                    }
+
                 }
 
                 this.currentDoor = null;
-            },
+            },*/
             atDoor:function (door)
             {
                 this.currentDoor = door;
@@ -104,6 +98,15 @@ ig.module(
                     this.visible = false;
                     this.vel.x = this.vel.y = 0;
                     this.accel.x = this.accel.y = 0;
+
+                    //this.type = ig.Entity.TYPE.NONE;
+                    this.collides = ig.Entity.COLLIDES.NONE;
+
+                    if(this.inputFilter.indexOf("open") == -1)
+                    {
+                        this.inputFilter.push("open");
+                        //console.log("Add open to filter", this.inputFilter, this.inputFilter.indexOf("open"));
+                    }
                 }
             },
             exitDoor:function ()
@@ -111,8 +114,46 @@ ig.module(
                 if (this.currentDoor)
                 {
                     this.currentDoor.close();
+                    this.currentDoor = null;
                     this.visible = true;
+
+                    //this.type = ig.Entity.TYPE.A;
+                    this.collides = ig.Entity.COLLIDES.ACTIVE;
+
+                    var index = this.inputFilter.indexOf("open");
+
+                    if(index != -1)
+                    {
+                        this.inputFilter.splice(index, 1);
+
+                        //console.log("remove open from filter", this.inputFilter);
+
+                    }
                 }
+            },
+            openPressed: function(){
+
+                //console.log("isOpening", this.isOpening, "isClosing", this.isClosing);
+
+                if(this.currentDoor)
+                {
+                    if(this.currentDoor.isOpening || this.currentDoor.isClosing)
+                        return;
+
+                    //console.log("Open Down", this.currentDoor);
+                    if (this.visible)
+                    {
+
+                        this.openDoor();
+                    }
+                    else
+                    {
+                        this.exitDoor();
+                    }
+                }
+            },
+            openReleased: function(){
+                // Does nothing
             }
         })
     });

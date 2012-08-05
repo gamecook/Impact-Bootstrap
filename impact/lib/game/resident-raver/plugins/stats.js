@@ -87,8 +87,14 @@ ig.module(
             },
             updateStats: function()
             {
-                this.stats.time = Math.round(this.levelTimer.delta());
-                this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
+                 //= Math.round();
+
+                var seconds = this.levelTimer.delta();
+                this.stats.time = Math.floor(seconds / 60) + ":" + (seconds % 60).toFixed().pad(2, "0")
+
+                // Disabled giving out points for killing zombies
+                //this.stats.score = (this.stats.doors * 50) + (this.stats.kills * 5);
+                this.stats.score = (this.stats.doors * 50);
             },
             onPlayerDeath: function()
             {

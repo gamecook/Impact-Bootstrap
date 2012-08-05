@@ -20,15 +20,11 @@ ig.module(
 
         ig.utils = {};
 
-        String.prototype.padString = function (length)
-        {
-            var str = this;
-            while (str.length < length)
-            {
-                str = '0' + str;
-            }
-            return str;
-        }
+        String.prototype.pad = function(l, s){
+            return (l -= this.length) > 0
+                ? (s = new Array(Math.ceil(l / s.length) + 1).join(s)).substr(0, s.length) + this + s.substr(0, l - s.length)
+                : this;
+        };
 
         String.prototype.capitalize = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
@@ -37,7 +33,6 @@ ig.module(
         ig.utils.randomRange = function(from, to){
             return Math.floor(Math.random() * (to - from + 1) + from);
         }
-
 
         ig.Game.inject({
             currentLevelName: null,
