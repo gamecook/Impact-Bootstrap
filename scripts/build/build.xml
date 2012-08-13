@@ -131,7 +131,7 @@
 
     <target name="win8-build">
 
-        <delete dir="${win8.dir}"/>
+        <!--<delete dir="${win8.dir}"/>-->
 
         <preprocess-game game="${game.module}" platform="${win8.platform}" output="${tmp.dir}"/>
 
@@ -152,11 +152,18 @@
 
         <!-- TODO need to remove other platform plugins -->
 
-        <sync todir="${win8.dir}">
+        <move todir="${win8.dir}/lib">
+            <fileset dir="${tmp.dir}/lib"/>
+        </move>
+
+        <move todir="${win8.dir}/media">
+            <fileset dir="${tmp.dir}/media"/>
+        </move>
+        <!--<sync todir="${win8.dir}/impact">
             <fileset dir="${tmp.dir}">
 
             </fileset>
-        </sync>
+        </sync>-->
 
         <delete dir="${tmp.dir}"/>
 
