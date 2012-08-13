@@ -19,10 +19,10 @@ ig.module(
 
         //TODO need to set up logic for resizing the game correctly for win8, showing touch controls and winjs specific logic
         var sizes = {
-            iPhone: { width: 240, height: 160, scale: 2 },
-            android: { width: 240, height: 160, scale: 2 },
-            iPad: { width: 240, height: 160, scale: 4 },
-            default: { width: 240, height: 160, scale: 4 }
+            small: { width: 240, height: 160, scale: 2 },
+            medium: { width: 240, height: 160, scale: 2 },
+            large: { width: 240, height: 160, scale: 4 },
+            default: { width: 240, height: 155, scale: 5 }
         };
 
         ig.gameSize = sizes.default;
@@ -58,4 +58,12 @@ ig.module(
                 }, false);
             },
         })
+
+        WinJS.Application.onsettings = function (e) {
+            console.log("open settings", e);
+            ig.game.togglePause(true);
+            //Example adding help to the win8 charms
+//          e.detail.applicationcommands = { "help": { title: "Help", href: "/html/help.html" } };
+//          WinJS.UI.SettingsFlyout.populateSettings(e);
+        };
     });

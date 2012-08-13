@@ -30,6 +30,7 @@ ig.module(
             {
                 this.parent(x, y, settings);
                 this.activate(this.locked);
+                console.log("Door is ready");
             },
             check:function (other)
             {
@@ -37,8 +38,9 @@ ig.module(
                     return;
 
                 if (other.atDoor && (other.pos.x > (this.pos.x)))
+                {
                     this.entityCanOpenDoor(other);
-
+                }
             },
             entityCanOpenDoor:function (other)
             {
@@ -74,21 +76,10 @@ ig.module(
 
         EntityBasePlayer.inject({
             currentDoor:null,
-            /*update:function ()
-            {
-                this.parent();
-
-                // Logic for entering doors
-                if (ig.input.pressed('open') && this.standing)
-                {
-
-                }
-
-                this.currentDoor = null;
-            },*/
             atDoor:function (door)
             {
-                this.currentDoor = door;
+                if(this.standing)
+                    this.currentDoor = door;
             },
             openDoor:function ()
             {
@@ -154,6 +145,15 @@ ig.module(
             },
             openReleased: function(){
                 // Does nothing
+            },
+            update: function()
+            {
+                // Clear out any current door value
+
+                this.parent();
+
+                this.currentDoor = null;
+
             }
         })
     });
