@@ -27,13 +27,33 @@ ig.module(
             checkAgainst:ig.Entity.TYPE.NONE,
             collides:ig.Entity.COLLIDES.ACTIVE,
             bloodColorOffset:0, // By default this is set to 0
+            inputFilter: [],
+            init: function(x, y, settings)
+            {
+                this.parent(x, y, settings);
+
+                // Setup values to handle input
+                this.states = [
+                    {state:"actions", method:"Down"},
+                    {state:"presses", method:"Pressed"},
+                    {state:"delayedKeyup", method:"Released"}
+                ];
+
+                this.totalStates = this.states.length;
+            },
             update:function ()
             {
                 // move left or right
                 if (this.visible)
                 {
                     this.onVisibleUpdate();
+
+
+
                 }
+
+                // Check for input
+                this.onCheckInput();
 
                 // move!
                 this.parent();
@@ -44,18 +64,18 @@ ig.module(
                 this.accel.x = 0;
                 this.accel.y = 0;
 
-                // Handle input
-                if (!this.states)
+
+               /* if (!this.states)
                 {
-                    this.states = [
-                        {state:"actions", method:"Down"},
-                        {state:"presses", method:"Pressed"},
-                        {state:"delayedKeyup", method:"Released"}
-                    ];
 
-                    this.totalStates = this.states.length;
-                }
+                }*/
 
+
+
+                this.currentAnim.flip.x = this.flip;
+            },
+            onCheckInput: function ()
+            {
                 // Loop through input states and call action handlers
                 for (var action in ig.input.actions)
                 {
@@ -66,12 +86,11 @@ ig.module(
 
                         if (stateValue)
                         {
-                            this.onInputAction(action, this.states[i].method);
+                            if(this.inputFilter.length == 0|| this.inputFilter.indexOf(action) != -1)
+                                this.onInputAction(action, this.states[i].method);
                         }
                     }
                 }
-
-                this.currentAnim.flip.x = this.flip;
             },
             updateAnimation:function ()
             {

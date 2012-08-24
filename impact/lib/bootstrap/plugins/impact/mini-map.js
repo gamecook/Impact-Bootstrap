@@ -24,17 +24,14 @@ ig.module(
         MiniMap = ig.Class.extend({
             maps:[],
             mapScreens:[],
+            scale: 1,
+            load:function (game, scale) {
 
-
-            init:function (x, y, scale) {
-
-            },
-
-
-            load:function (game) {
                 if (!game || !game.backgroundMaps.length) {
                     return;
                 }
+
+                this.scale = scale;
 
                 this.mapCanvas = ig.$new('canvas');
                 this.ctx = this.mapCanvas.getContext('2d');
@@ -47,10 +44,8 @@ ig.module(
                     this.generateMiniMap(this.ctx, map, m);
                 }
             },
-
-
             generateMiniMap:function (context, map) {
-                var s = ig.system.scale; // we'll need this a lot
+                var s = this.scale;//ig.system.scale; // we'll need this a lot
 
                 // resize the tileset, so that one tile is 's' pixels wide and high
                 var ts = ig.$new('canvas');
@@ -103,9 +98,10 @@ ig.module(
             miniMapView:{x:0, y:0},
             miniMapViewPort: {x:0, y:0},
             miniMapPosition: {x:10, y:10},
+            miniMapScale: 4,
             loadLevel:function (data) {
                 this.parent(data);
-                this.miniMapInstance.load(this);
+                this.miniMapInstance.load(this, this.miniMapScale);
 
                 var map = this.backgroundMaps[0];
                 var s = ig.system.scale;
@@ -121,7 +117,7 @@ ig.module(
 
                     var ctx = ig.system.context;
                     // Get scale
-                    var s = ig.system.scale;
+                    var s = this.miniMapInstance.scale;//ig.system.scale;
 
                     // Draw Map
                     ctx.drawImage(this.miniMapInstance.mapCanvas, this.miniMapPosition.x, this.miniMapPosition.y);

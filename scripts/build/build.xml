@@ -6,142 +6,209 @@
 
     <target name="full-build">
         <!-- Clean -->
-        <antcall target="pre-build-cleanup"/>
-        <antcall target="bake"/>
         <antcall target="web-build"/>
-        <antcall target="ios-build"/>
         <antcall target="win8-build"/>
         <antcall target="chrome-build"/>
-        <antcall target="mozilla-build"/>
-        <antcall target="post-build-cleanup"/>
-        <!-- Bake -->
     </target>
 
     <!-- Delete deploy directory and create a new one -->
-    <target name="pre-build-cleanup">
+    <target name="pre-build">
         <delete dir="${deploy.dir}"/>
-        <mkdir dir="${deploy.dir}"/>
+        <mkdir dir="${tmp.dir}"/>
     </target>
 
-    <!-- Removes the minified game from the impact directory-->
-    <target name="post-build-cleanup">
-        <delete file="${impact.dir}/game.min.js"/>
-    </target>
+    <macrodef name="preprocess-game">
+        <attribute name="game" />
+        <attribute name="platform" />
+        <attribute name="output" default="${tmp.dir}"/>
+
+        <!-- First copy over files -->
+        <sequential>
+
+            <delete dir="@{output}"/>
+
+            <sync todir="@{output}">
+                <fileset dir="${impact.dir}">
+                    <exclude name="weltmeister.html"/>
+                    <exclude name="**/lib/weltmeister/**"/>
+                    <exclude name="**/lib/game/**"/>
+                    <exclude name="**/tools/*"/>
+                </fileset>
+            </sync>
+
+            <sync todir="@{output}/lib/game/@{game}">
+                <fileset dir="${impact.dir}/lib/game/@{game}">
+                </fileset>
+            </sync>
+
+            <copy file="${impact.dir}/lib/game/main.js" todir="@{output}/lib/game"/>
+            <!-- Second, regex out value we need for the platform -->
+
+            <!-- replace game module -->
+            <replaceregexp file="@{output}/lib/game/main.js"
+                           match="\/\* build game \*\/(.*?)\/\* end build game \*\/"
+                           replace="'game.@{game}.@{game}'," flags="gs">
+            </replaceregexp>
+
+            <!-- replace platform plugin -->
+            <replaceregexp file="@{output}/lib/game/main.js"
+                           match="\/\* build plugin \*\/(.*?)\/\* end build plugin \*\/"
+                           replace="'@{platform}'" flags="gs">
+            </replaceregexp>
+
+            <!-- remove any debug comment blocks-->
+            <replaceregexp file="@{output}/lib/game/main.js"
+                           match="\/\* build debug \*\/(.*?)\/\* end build debug \*\/"
+                           replace="" flags="gs">
+            </replaceregexp>
+
+            <!-- replace js source paths in HTML with minified game js. Make sure code is surrounded by "source script" comments so the regex can find it. -->
+            <replaceregexp file="@{output}/index.html"
+                           match="\&lt;!--source scripts--\&gt;(.*?)\&lt;!--end source scripts--\&gt;"
+                           replace="\&lt;script src='game.min.js'\&gt;\&lt;/script\&gt;" flags="gs">
+            </replaceregexp>
+
+            <!-- This will automatically replace the title of the html page with the project name -->
+            <replaceregexp file="@{output}/index.html"
+                           match="&lt;title\b[^&gt;]*&gt;(.*?)&lt;/title&gt;"
+                           replace="&lt;title&gt;${project.name}&lt;/title&gt;" flags="gs">
+            </replaceregexp>
+
+            <!-- copy artwork into correct location -->
+
+            <delete dir="@{output}/media/games"/>
+
+            <sync todir="@{output}/media/games/@{game}">
+                <fileset dir="${impact.dir}/media/games/@{game}">
+                </fileset>
+            </sync>
+
+        </sequential>
+
+    </macrodef>
 
     <!-- Run the bake script - you need PHP to be runnable from the command line. -->
-    <target name="bake">
+    <macrodef name="bake">
+        <attribute name="src" />
+        <attribute name="output" default="game.min.js" />
 
-        <exec dir="${impact.dir}" executable="php">
-            <arg value="${impact.dir}/tools/bake.php"/>
-            <arg value="lib/impact/impact.js"/>
-            <arg value="lib/game/main.js"/>
-            <arg value="game.min.js"/>
-        </exec>
+        <sequential>
 
-    </target>
+            <exec dir="@{src}" executable="php">
+                <arg value="${impact.dir}/tools/bake.php"/>
+                <arg value="lib/impact/impact.js"/>
+                <arg value="lib/game/main.js"/>
+                <arg value="@{output}"/>
+            </exec>
+
+            <!-- Replace version and tracking placeholders with values from the build property -->
+            <replace file="@{src}/@{output}" token="@version@" value="${project.version}"/>
+            <replace file="@{src}/@{output}" token="@tracking@" value="${project.tracking}"/>
+        </sequential>
+
+    </macrodef>
+
 
     <target name="web-build">
-        <!-- Copy over the impact directory to the deploy folder and ignore what is not needed. -->
+
+        <delete dir="${web.dir}"/>
+
+        <preprocess-game game="${game.module}" platform="${web.platform}" output="${tmp.dir}"/>
+
+        <bake src="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>
+
         <sync todir="${web.dir}">
-            <fileset dir="${impact.dir}">
-                <exclude name="weltmeister.html"/>
-                <exclude name="**/tools/*"/>
-                <exclude name="**/lib/**"/>
-            </fileset>
-        </sync>
-
-        <!-- replace js source paths in HTML with minified game js. Make sure code is surrounded by "source script" comments so the regex can find it. -->
-        <replaceregexp file="${web.dir}/index.html"
-                       match="\&lt;!--source scripts--\&gt;(.*?)\&lt;!--end source scripts--\&gt;"
-                       replace="\&lt;script src='game.min.js'\&gt;\&lt;/script\&gt;" flags="gs">
-        </replaceregexp>
-
-        <!-- This will automatically replace the title of the html page with the project name -->
-        <replaceregexp file="${web.dir}/index.html"
-                       match="&lt;title\b[^&gt;]*&gt;(.*?)&lt;/title&gt;"
-                       replace="&lt;title&gt;${project.name}&lt;/title&gt;" flags="gs">
-        </replaceregexp>
-
-        <!-- Replace version and tracking placeholders with values from the build property -->
-        <replace file="${web.dir}/game.min.js" token="@version@" value="${project.version}"/>
-        <replace file="${web.dir}/game.min.js" token="@tracking@" value="${project.tracking}"/>
-
-        <!-- This will copy over debug CSS if game is running in debug mode. -->
-        <copy file="${impact.dir}/lib/impact/debug/debug.css"
-              tofile="${web.dir}/lib/impact/debug/debug.css"/>
-    </target>
-
-    <target name="ios-build">
-        <!-- copy over files for iOS -->
-        <sync todir="${ios.dir}">
-            <fileset dir="${web.dir}">
+            <fileset dir="${tmp.dir}">
 
             </fileset>
         </sync>
+
+        <delete dir="${tmp.dir}"/>
+
     </target>
 
     <target name="win8-build">
-        <!-- copy over files for Win8 -->
-        <sync todir="${win8.dir}">
-            <fileset dir="${web.dir}">
+
+        <!--<delete dir="${win8.dir}"/>-->
+
+        <preprocess-game game="${game.module}" platform="${win8.platform}" output="${tmp.dir}"/>
+
+        <!-- todo, need a way to wrap ig.main call with condition to start when win8 app is ready -->
+        <!-- wrap game constructor -->
+        <replaceregexp file="${tmp.dir}/lib/game/main.js"
+                       match="ig.main\((.*?)\);"
+                       replace="ig.startNewGame = function () {\0};" flags="gs">
+        </replaceregexp>
+
+        <!--<bake src="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>-->
+
+        <delete file="${tmp.dir}/index.html"/>
+        <delete file="${tmp.dir}/lib/bootstrap/weltmeister-bootstrap.js"/>
+        <delete dir="${tmp.dir}/lib/bootstrap/plugins/weltmeister"/>
+
+        <!-- TODO need to remove other platform plugins -->
+
+        <move todir="${win8.dir}/lib">
+            <fileset dir="${tmp.dir}/lib"/>
+        </move>
+
+        <move todir="${win8.dir}/media">
+            <fileset dir="${tmp.dir}/media"/>
+        </move>
+        <!--<sync todir="${win8.dir}/impact">
+            <fileset dir="${tmp.dir}">
 
             </fileset>
-        </sync>
+        </sync>-->
+
+        <delete dir="${tmp.dir}"/>
+
     </target>
 
     <target name="chrome-build">
 
-        <!-- Create chrome market app -->
-        <sync todir="${chrome.dir}/tmp">
-            <fileset dir="${web.dir}">
+        <delete dir="${chrome.dir}"/>
 
-            </fileset>
-        </sync>
+        <preprocess-game game="${game.module}" platform="${chrome.platform}" output="${tmp.dir}"/>
 
-        <echo file="${chrome.dir}/tmp/manifest.json" append="false">
-            {
-            "name": "${project.name}",
-            "description": "${project.description}",
-            "version": "${project.version}",
-            "icons": {
-            "16": "images/icons/icon-16x16.png",
-            "48": "images/icons/icon-48x48.png",
-            "128": "images/icons/icon-128x128.png"
-            },
-            "app": {"launch": {
-            "local_path": "index.html"
-            }},
-            "homepage_url": "${project.url}"
-            }
-        </echo>
+        <bake src="${tmp.dir}"/>
 
-        <zip destfile="${chrome.dir}/${project.name}-${project.version}.zip" basedir="${chrome.dir}"/>
-        <delete dir="${chrome.dir}/tmp/"/>
+        <generate-manifest output="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}/lib"/>
+
+        <zip destfile="${chrome.dir}/${game.module}-${project.version}.zip" basedir="${tmp.dir}"/>
+
+        <delete dir="${tmp.dir}"/>
+
     </target>
 
-    <target name="mozilla-build">
-        <!-- Create Mozilla App -->
-        <sync todir="${mozilla.dir}">
-            <fileset dir="${web.dir}">
+    <macrodef name="generate-manifest">
+        <attribute name="output" />
+        <attribute name="file-name" default="manifest.json" />
 
-            </fileset>
-        </sync>
-
-        <echo file="${mozilla.dir}/manifest.json" append="false">
-            {
-            "name":"${project.name}",
-            "developer": {
-            "name":"${company.name}",
-            "url":"${company.site}"
-            },
-            "description":"${project.description}",
-            "icons":{
-            "16": "/images/icons/icon-16x16.png",
-            "48": "/images/icons/icon-48x48.png",
-            "128": "/images/icons/icon-128x128.png"
-            }
-            }
-        </echo>
-    </target>
+        <sequential>
+            <echo file="@{output}/@{file-name}" append="false">
+                {
+                "name": "${project.name}",
+                "description": "${project.description}",
+                "version": "${project.version}",
+                "icons": {
+                "16": "images/icons/icon-16x16.png",
+                "48": "images/icons/icon-48x48.png",
+                "128": "images/icons/icon-128x128.png"
+                },
+                "app": {"launch": {
+                "local_path": "index.html"
+                }},
+                "homepage_url": "${project.url}"
+                }
+            </echo>
+        </sequential>
+    </macrodef>
 
 </project>
