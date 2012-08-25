@@ -11,8 +11,9 @@ ig.module(
 
         EntityElevator = EntityBaseElevator.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('media/games/resident-raver/images/elevator.png', 32, 48),
+            animSheet:new ig.AnimationSheet('media/games/resident-raver/images/elevator.png', 40, 58),
             size:{x:32, y:48},
+            offset: {x: 4, y: 6},
             init: function(x, y, settings)
             {
                 this.parent(x, y, settings);

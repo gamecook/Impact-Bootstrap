@@ -17,7 +17,7 @@ ig.module(
 )
     .defines(function () {
 
-        EntityLevelexit = ig.Entity.extend({
+        EntityLevelExit = ig.Entity.extend({
             size: { x: 16, y: 16 },
             _wmScalable: true,
             _wmDrawBox: true,

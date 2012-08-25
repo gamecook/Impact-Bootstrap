@@ -26,8 +26,9 @@ ig.module(
                         return a.toUpperCase() + b;
                     });
 
-                    var levelScoreID = this.levelName+"Score"
-                    this.hiScore = ig.game.storage.getInt(levelScoreID) ? ig.game.storage.getInt(levelScoreID) : 0;
+                    var levelScoreID = this.levelName+"Score";
+                    if(ig.game.storage)
+                        this.hiScore = ig.game.storage.getInt(levelScoreID) ? ig.game.storage.getInt(levelScoreID) : 0;
                 }
             },
             onOpen: function(){

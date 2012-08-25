@@ -115,7 +115,7 @@ ig.module(
             speed:20,
             gravityFactor:0,
             maxVel:{x:100, y:100},
-            debug:false,
+            debug: false,
             draw:function ()
             {
                 if (this.debug)

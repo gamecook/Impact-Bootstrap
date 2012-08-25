@@ -30,7 +30,6 @@ ig.module(
             {
                 this.parent(x, y, settings);
                 this.activate(this.locked);
-                console.log("Door is ready");
             },
             check:function (other)
             {
