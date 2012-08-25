@@ -1,22 +1,20 @@
 ig.module(
-    'game.resident-raver.entities.zombie'
+    'game.resident-raver.entities.base-zombie'
 )
     .requires(
     'bootstrap.entities.base-monster'
 )
     .defines(function () {
-        EntityZombie = EntityBaseMonster.extend({
-            _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('media/games/resident-raver/images/zombie.png', 16, 16),
-            size: {x: 8, y:14},
-            offset: {x: 4, y: 2},
+        EntityBaseZombie = EntityBaseMonster.extend({
+            _wmIgnore: true,
             lookAhead: 5,
-            deathSFX: new ig.Sound( 'media/bootstrap/sounds/Death.*' ),
-            fallOutOfBoundsSFX: new ig.Sound( 'media/bootstrap/sounds/PlayerMonsterFall.*' ),
-            hitSoftSFX: new ig.Sound( 'media/bootstrap/sounds/HitSoft.*' ),
             spawner: null,
             stayOnPlatform: false,
             bloodColorOffset:1,
+            spriteOffsetTotal: 8,
+            fallOutOfBoundsSFX: new ig.Sound( 'media/bootstrap/sounds/PlayerMonsterFall.*' ),
+            deathSFX: new ig.Sound( 'media/bootstrap/sounds/Death.*' ),
+            hitSoftSFX: new ig.Sound( 'media/bootstrap/sounds/HitSoft.*' ),
             init: function(x, y, settings)
             {
                 this.parent(x, y, settings);
@@ -24,7 +22,7 @@ ig.module(
                 this.setupAnimation(settings.spriteOffset ? settings.spriteOffset : 0);
             },
             setupAnimation:function (offset) {
-                offset = offset * 8;
+                offset = offset * this.spriteOffsetTotal;
                 this.addAnim('walk', .07, [0+offset,1+offset,2+offset,3+offset,4+offset,5+offset]);
             },
             outOfBounds: function()
@@ -37,7 +35,8 @@ ig.module(
             kill:function (noAnimation)
             {
                 this.parent(noAnimation);
-                this.spawner.removeItem();
+                if(this.spawner)
+                    this.spawner.removeItem();
             }
 
         })

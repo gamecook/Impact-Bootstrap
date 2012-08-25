@@ -17,7 +17,12 @@ ig.module(
     'game.resident-raver.levels.reynolds',
     'game.resident-raver.levels.salley',
     'game.resident-raver.levels.smith',
-    'game.resident-raver.entities.zombie', // Need to import zombies since we dynamically spawn them
+    // Need to import zombies since we dynamically spawn them
+    'game.resident-raver.entities.zombie-a',
+    'game.resident-raver.entities.zombie-b',
+    'game.resident-raver.entities.zombie-c',
+    'game.resident-raver.entities.zombie-d',
+    'game.resident-raver.entities.zombie-e',
     'game.resident-raver.plugins.stats',
     'game.resident-raver.plugins.local-storage'
 )
