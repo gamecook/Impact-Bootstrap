@@ -11,7 +11,7 @@ ig.module(
     .defines(function () {
         EntityPlayer = EntityBasePlayer.extend({
             _wmIgnore: false,
-            animSheet:new ig.AnimationSheet('media/games/resident-raver/images/player.png', 16, 16),
+            animSheet:new ig.AnimationSheet('media/games/resident-raver/images/player.png', 17, 17),
             size:{x:8, y:14},
             offset:{x:4, y:2},
             maxVel: {x: 100, y: 150},
@@ -35,7 +35,7 @@ ig.module(
                 this.startPosition = {x:x,y:y};
             },
             setupAnimation: function(offset){
-                offset = offset * 10;
+                offset = offset * 14;
                 this.addAnim('idle', 1, [0+offset]);
                 this.addAnim('run', .07, [0+offset,1+offset,2+offset,3+offset,4+offset,5+offset]);
                 this.addAnim('jump', 1, [9+offset]);
